@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto HTML com Axios</title>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+    <form id="form-empresa" onsubmit="cadastrarEmpresa(event)">
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="tipo">Tipo:</label><br>
+        <select id="tipo" name="tipo" required>
+            <option value="">Selecione...</option>
+            <option value="Mercado">Mercado</option>
+            <option value="Restaurante">Restaurante</option>
+            <option value="Feira">Feira</option>
+        </select><br><br>
+
+        <label for="endereco">Endereço:</label><br>
+        <input type="text" id="endereco" name="endereco" required><br><br>
+
+        <label for="telefone">Telefone:</label><br>
+        <input type="text" id="telefone" name="telefone" required><br><br>
+
+    </form>
+
+    <button onclick="carregarUsuarios()">Carregar Usuários</button>
+
+    <button onclick="criarEmpresa()">Criar Novo empresa</button>
+
+    <ul id="lista-usuarios"></ul>
+
+
+
+
+
+
+    <table id="tabela-empresas" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Endereço</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+    <!-- Importando Axios diretamente do CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function carregarUsuarios() {
+            axios.get('http://localhost/hackathon13/api_php/usuarios.php')
+                .then(function (response) {
+                    const usuarios = response.data;
+                    const tabela = $('#tabela-empresas').DataTable();
+                    tabela.clear();
+
+                    usuarios.forEach(function (usuario) {
+                        tabela.row.add([
+                            usuario.nome,
+                            usuario.tipo,
+                            usuario.endereco,
+                            usuario.telefone
+                        ]);
+                    });
+
+                    tabela.draw();
+                })
+                .catch(function (error) {
+                    console.error('Erro ao carregar empresas:', error);
+                    alert('Ocorreu um erro ao buscar as empresas.');
+                });
+        }
+        $(document).ready(function () {
+            $('#tabela-empresas').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+                }
+            });
+
+            // Carregar empresas na tabela
+            carregarUsuarios();
+        });
+
+        function criarEmpresa() {
+            // Capturar os valores dos campos do formulário
+            const nome = document.getElementById('nome').value;
+            const tipo = document.getElementById('tipo').value;
+            const endereco = document.getElementById('endereco').value;
+            const telefone = document.getElementById('telefone').value;
+
+            // Enviar os dados usando Axios
+            axios.post('http://localhost/hackathon13/api_php/usuarios.php', {
+                nome: nome,
+                tipo: tipo,
+                endereco: endereco,
+                telefone: telefone
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    alert('Empresa cadastrada com sucesso!');
+                    document.getElementById('form-empresa').reset(); // Limpa o formulário
+                    carregarUsuarios(); // Atualiza a lista
+                })
+                .catch(function (error) {
+                    console.error('Erro ao cadastrar empresa:', error);
+                    alert('Erro ao cadastrar empresa.');
+                });
+        }
+
+        function atualizarUsuario() {
+            axios.put('http://localhost:3000/usuarios/1', {
+                nome: 'São Bento',
+                email: 'bento@exemplo.com'
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    alert('Usuário atualizado!');
+                })
+                .catch(function (error) {
+                    console.error('Erro ao atualizar usuário:', error);
+                });
+        }
+
+        function excluirUsuario() {
+            axios.delete('http://localhost:3000/usuarios/1')
+                .then(function (response) {
+                    console.log(response.data);
+                    alert('Usuário excluído!');
+                })
+                .catch(function (error) {
+                    console.error('Erro ao excluir usuário:', error);
+                });
+        }
+
+
+
+    </script>
+</body>
+
+</html>
