@@ -1,7 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Content-Type: application/json');
 
 include 'conexao.php';
 
@@ -26,7 +26,7 @@ try {
         echo json_encode(["mensagem" => "Login realizado com sucesso!", "usuario" => ["documento" => $documento]]);
     } else {
         http_response_code(401);
-        echo json_encode(["mensagem" => "Documento ou senha incorretos."]);
+        echo json_encode(["mensagem" => "Documento ou senha incorretos22."]);
     }
 } catch (PDOException $e) {
     http_response_code(500);
