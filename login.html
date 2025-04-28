@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="Login" />
+  <meta name="description" content="Página de login" />
+  <meta name="author" content="" />
+
+  <title>Login - Mico</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- custom style -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body class="sub_page">
+
+<div class="hero_area">
+  <!-- Botão Voltar no canto superior direito -->
+  <div class="top-right-button">
+    <a href="index.html" class="btn btn-secondary">Voltar</a>
+  </div>
+
+  <header class="header_section">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="index.html">
+          <img src="images/logo.png" alt="Logo">
+        </a>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<section class="contact_section layout_padding-bottom">
+  <div class="container">
+    <div class="heading_container">
+      <h2>Login</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form_container">
+          <form action="login_process.php" method="POST">
+            <div class="form-group">
+              <input type="text" name="username" class="form-control" placeholder="Usuário" required>
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" class="form-control" placeholder="Senha" required>
+            </div>
+            <div class="form-group">
+              <select name="user_type" class="form-control" required>
+                <option value="">Selecione o Tipo de Usuário</option>
+                <option value="admin">Administrador</option>
+                <option value="user">Usuário Comum</option>
+              </select>
+            </div>
+            <div class="btn_box text-center">
+              <button type="submit" class="btn btn-primary">
+                Entrar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer section -->
+<footer class="footer_section">
+  <div class="container">
+    <p>
+      &copy; <span id="displayYear"></span> Todos os direitos reservados - Mico
+    </p>
+  </div>
+</footer>
+<!-- footer section -->
+
+<!-- jQuery -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<!-- bootstrap js -->
+<script src="js/bootstrap.js"></script>
+<!-- custom js -->
+<script src="js/custom.js"></script>
+
+</body>
+</html>

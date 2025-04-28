@@ -76,6 +76,14 @@ a:focus {
           box-shadow: none;
 }
 
+.top-right-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  color: #252525
+}
+
 /*header section*/
 .hero_area {
   position: relative;
