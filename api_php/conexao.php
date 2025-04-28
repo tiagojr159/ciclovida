@@ -7,9 +7,9 @@ $pass = '';
 
 
 $host = 'localhost'; // servidor
-$db = 'ki6com20_paixao'; // usuario do banco
+$db = 'ki6com20_ciclovida'; // usuario do banco
 $pass = 'igarassu12!@'; // senha do usuario do banco
-$user = 'ki6com20_paixao'; // nome do banco
+$user = 'ki6com20_ciclovida'; // nome do banco
 
 
 try {
