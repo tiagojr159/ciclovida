@@ -933,7 +933,7 @@ a:focus {
 }
 
 .info_section .info_top .info_logo a img {
-  width: 55px;
+  width: 10px;
 }
 
 .info_section .info_form {
@@ -1130,3 +1130,7 @@ a:focus {
   color: inherit;
 }
 /*# sourceMappingURL=style.css.map */
+
+.logo{
+  width: 40px;
+}
