@@ -68,7 +68,7 @@
 
     <script>
         function carregarUsuarios() {
-            axios.get('http://localhost/hackathon13/api_php/usuarios.php')
+            axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php')
                 .then(function (response) {
                     const usuarios = response.data;
                     const tabela = $('#tabela-empresas').DataTable();
@@ -113,7 +113,7 @@
             const telefone = document.getElementById('telefone').value;
 
             // Enviar os dados usando Axios
-            axios.post('http://localhost/hackathon13/api_php/usuarios.php', {
+            axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
                 nome: nome,
                 tipo: tipo,
                 endereco: endereco,

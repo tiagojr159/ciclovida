@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "../hackathon13"
+		},
+		{
+			"path": "../hackathon133/api_php"
+		},
+		{
+			"path": "../hackathon133/css"
+		},
+		{
+			"path": "../hackathon133/fonts"
+		},
+		{
+			"path": "../hackathon133/images"
+		},
+		{
+			"path": "../hackathon133/js"
+		},
+		{
+			"path": "../hackathon133/api"
+		}
+	],
+	"settings": {}
+}
