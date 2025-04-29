@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
+    <script src="js/verificaLogin.js"></script>
 
     <form id="form-empresa" onsubmit="cadastrarEmpresa(event)">
         <label for="nome">Nome:</label><br>
@@ -67,24 +67,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        window.onload = function () {
-            verificarLogin();
-        };
-
-        function verificarLogin() {
-            const usuarioLogado = localStorage.getItem('usuarioLogado');
-            console.log('logado: ' + usuarioLogado)
-            if (!usuarioLogado) {
-                alert('Você precisa estar logado para acessar esta página.');
-                window.location.href = 'login.html'; // Redireciona para o login
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'login.html';
-        }
-
         function carregarUsuarios() {
             axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php')
                 .then(function (response) {

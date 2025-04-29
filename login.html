@@ -34,6 +34,7 @@
     <!-- Botão Voltar no canto superior direito -->
     <div class="top-right-button">
       <a href="index.html" class="btn btn-secondary">Voltar</a>
+      <button onclick="logout()" class="btn btn-secondary">Sair</button>
     </div>
 
     <header class="header_section">
@@ -55,15 +56,15 @@
       <div class="row justify-content-center">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="login_process.php" method="POST">
+            <form id="form-login" onsubmit="fazerLogin(event)">
               <div class="form-group">
-                <input type="text" name="username" class="form-control" placeholder="Usuário" required>
+                <input type="text" name="documento" id="documento" class="form-control" placeholder="CPF/CNPJ" required>
               </div>
               <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Senha" required>
+                <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
               </div>
               <div class="form-group">
-                <select name="user_type" class="form-control" required>
+                <select name="user_type" class="form-control">
                   <option value="">Selecione o Tipo de Usuário</option>
                   <option value="admin">Administrador</option>
                   <option value="user">Usuário Comum</option>
@@ -79,27 +80,6 @@
         </div>
       </div>
     </div>
-
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-
-        <h2>Login do Usuário (CPF ou CNPJ)</h2>
-
-        <form id="form-login" onsubmit="fazerLogin(event)">
-          <label for="documento">CPF ou CNPJ:</label><br>
-          <input type="text" id="documento" name="documento" required><br><br>
-
-          <label for="senha">Senha:</label><br>
-          <input type="password" id="senha" name="senha" required><br><br>
-
-          <button type="submit">Entrar</button>
-        </form>
-
-        <hr>
-      </div>
-    </div>
-
-
   </section>
 
 
@@ -116,24 +96,18 @@
       </p>
     </div>
   </footer>
-  <!-- footer section -->
 
-  <!-- jQuery -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="js/jquery-3.4.1.min.js"></script>
-  <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
-  <!-- custom js -->
   <script src="js/custom.js"></script>
 
   <script>
     function fazerLogin(event) {
-      event.preventDefault(); // Evita o formulário recarregar a página
-
+      event.preventDefault();
       const documento = document.getElementById('documento').value;
       const senha = document.getElementById('senha').value;
 
-     // axios.post('http://localhost/ciclovida/api_php/login.php', {
       axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/login.php', {
         documento: documento,
         senha: senha
@@ -141,16 +115,18 @@
         .then(function (response) {
           console.log(response.data);
           alert('Login realizado com sucesso!');
-
           localStorage.setItem('usuarioLogado', JSON.stringify(response.data.usuario));
-
-          // Redirecionar ou carregar sistema
-          // window.location.href = 'sistema.html';
+          window.location.href = 'index.html';
         })
         .catch(function (error) {
           console.error('Erro ao fazer login:', error);
           alert('Documento ou senha inválidos!');
         });
+    }
+    function logout() {
+      alert('Logout realizado com sucesso!');
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = 'login.html';
     }
   </script>
 
