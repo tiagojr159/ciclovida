@@ -119,12 +119,12 @@
   <!-- footer section -->
 
   <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="js/jquery-3.4.1.min.js"></script>
   <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
   <!-- custom js -->
   <script src="js/custom.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script>
     function fazerLogin(event) {
@@ -133,7 +133,8 @@
       const documento = document.getElementById('documento').value;
       const senha = document.getElementById('senha').value;
 
-      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/login.php', {
+     // axios.post('http://localhost/ciclovida/api_php/login.php', {
+      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/login.php', {
         documento: documento,
         senha: senha
       })

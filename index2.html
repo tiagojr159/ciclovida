@@ -35,7 +35,7 @@
     <button onclick="carregarUsuarios()">Carregar Usuários</button>
 
     <button onclick="criarEmpresa()">Criar Novo empresa</button>
-
+    <button onclick="logout()">Sair</button>
     <ul id="lista-usuarios"></ul>
 
 
@@ -67,6 +67,24 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
+        window.onload = function () {
+            verificarLogin();
+        };
+
+        function verificarLogin() {
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            console.log('logado: ' + usuarioLogado)
+            if (!usuarioLogado) {
+                alert('Você precisa estar logado para acessar esta página.');
+                window.location.href = 'login.html'; // Redireciona para o login
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        }
+
         function carregarUsuarios() {
             axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php')
                 .then(function (response) {
