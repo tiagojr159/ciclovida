@@ -56,6 +56,10 @@ if ($metodo === 'GET') {
     } else {
         http_response_code(400);
         echo json_encode(["mensagem" => "Dados inválidos! Nome, tipo, email e senha são obrigatórios."]);
+        foreach ($dados as $chave => $valor) {
+            $sql = str_replace(":$chave", "'" . addslashes($valor) . "'", $sql);
+        }
+        echo $sql;
     }
 
 } elseif ($metodo === 'PUT') {
