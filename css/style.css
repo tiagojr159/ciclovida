@@ -126,8 +126,7 @@ a:focus {
 }
 
 .navbar-brand {
-  background-color: #ffffff;
-  padding: 15px 35px;
+  padding: 10px 25px;
 }
 
 .navbar-brand img {
@@ -1121,11 +1120,24 @@ a:focus {
   margin-right: 10px;
 }
 
+.head_login{
+  align-items: center;
+}
+.img_login {
+  display: block;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 5%;
+  border-radius: 20px;
+  
+}
 /* footer section*/
 .footer_section {
   position: relative;
   background-color: #252525;
   text-align: center;
+  flex: 1;
 }
 
 .footer_section p {
