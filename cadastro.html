@@ -17,12 +17,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
   <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
   <!-- datepicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
   <!-- Custom styles for this template -->
@@ -37,7 +39,7 @@
     <div class="header_bottom">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          
+
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,11 +84,11 @@
         <h3>Seja bem-vindo(a) ao Ciclo Vivo</h3>
         <p>Preencha os dados abaixo e crie sua conta</p>
       </div>
-  
+
       <div class="row justify-content-center">
         <div class="col-md-8">
           <!-- Painel de fundo -->
-          <div >
+          <div>
             <div class="form-cadastro">
               <form id="form-cadastro" onsubmit="realizarCadastro(event)">
                 <div>
@@ -119,11 +121,11 @@
                 </div>
                 <div>
                   <label for="">Endereço:</label>
-                  <input required id="endereço" type="text" placeholder="Endereço" />
+                  <input required id="endereco" type="text" placeholder="Endereço" />
                 </div>
                 <div>
                   <label for="">CEP:</label>
-                  <input required id="cep" type="text" placeholder="CEP" />
+                  <input id="cep" type="text" placeholder="CEP" />
                 </div>
                 <div id="password" style="margin-top: 10px;">
                   <label>Senha:</label>
@@ -134,7 +136,7 @@
                   <input required type="password" id="password_confirm" placeholder="Confirme sua senha" />
                 </div>
                 <div class="links-cadastro">
-                  <p>Já possui uma conta?</p> 
+                  <p>Já possui uma conta?</p>
                   <a href="login.html" class="link_login">Clique aqui</a>
                 </div>
                 <!-- Botão de envio -->
@@ -149,7 +151,7 @@
       </div>
     </div>
   </section>
-  
+
   <!-- end contact section -->
 
   <!-- footer section -->
@@ -168,7 +170,8 @@
   <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
   <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
   <!-- owl slider -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <!-- datepicker -->
@@ -176,16 +179,17 @@
   <!-- custom js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script src="js/custom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       // Máscaras
       $('#telefone').mask('(00) 00000-0000');
       $('#cpf').mask('000.000.000-00');
       $('#cnpj').mask('00.000.000/0000-00');
-      $('#cep').mask('00.000-000');
-  
+     // $('#cep').mask('00.000-000');
+
       // Mostrar/ocultar CPF ou CNPJ
-      $('input[name="tipoPessoa"]').change(function() {
+      $('input[name="tipoPessoa"]').change(function () {
         if ($(this).val() === 'fisica') {
           $('#cpfField').show();
           $('#cnpjField').hide();
@@ -196,55 +200,55 @@
       });
     });
     function realizarCadastro(event) {
-    event.preventDefault();
+      event.preventDefault();
 
-    // Obter os valores dos campos
-    const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const telefone = document.getElementById('telefone').value.trim();
-    const tipoPessoa = document.querySelector('input[name="tipoPessoa"]:checked').value;
-    const cpf = document.getElementById('cpf').value.trim();
-    const cnpj = document.getElementById('cnpj').value.trim();
-    const endereco = document.getElementById('endereco').value.trim();
-    const cep = document.getElementById('cep').value.trim();
-    const senha = document.getElementById('password').value;
-    const senhaConfirm = document.getElementById('password_confirm').value;
+      // Obter os valores dos campos
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const tipoPessoa = document.querySelector('input[name="tipoPessoa"]:checked').value;
+      const endereco = document.getElementById('endereco').value.trim();
+      const documento = document.getElementById('documento').value.trim();
+     // const cep = document.getElementById('cep').value.trim();
+      const senha = document.getElementById('password').value;
+      const senhaConfirm = document.getElementById('password_confirm').value;
 
-    // Verificação simples de senha
-    if (senha !== senhaConfirm) {
-      alert('As senhas não coincidem!');
-      return;
+      // Verificação simples de senha
+      if (senha !== senhaConfirm) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      // Determinar o documento correto
+      //const documento = tipoPessoa === 'fisica' ? cpf : cnpj;
+
+      // Validação simples
+      if (!documento) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      const dadosCadastro = {
+        nome,
+        email,
+        telefone,
+        tipoPessoa,
+        documento,
+        endereco,
+        cep,
+        senha
+      };
+      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
+        .then(function (response) {
+          alert('Cadastro realizado com sucesso!');
+          window.location.href = 'login.html';
+        })
+        .catch(function (error) {
+          console.error('Erro ao realizar cadastro:', error);
+          alert('Erro ao realizar cadastro. Tente novamente.');
+        });
     }
-
-    // Determinar o documento correto
-    const documento = tipoPessoa === 'fisica' ? cpf : cnpj;
-
-    // Validação simples
-    if (!documento) {
-      alert('Por favor, preencha todos os campos obrigatórios.');
-      return;
-    }
-
-    const dadosCadastro = {
-      nome,
-      email,
-      telefone,
-      tipoPessoa,
-      documento,
-      endereco,
-      cep,
-      senha
-    };
-    axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
-      .then(function (response) {
-        alert('Cadastro realizado com sucesso!');
-        window.location.href = 'login.html';
-      })
-      .catch(function (error) {
-        console.error('Erro ao realizar cadastro:', error);
-        alert('Erro ao realizar cadastro. Tente novamente.');
-      });
-  }
   </script>
 </body>
+
 </html>

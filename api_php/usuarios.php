@@ -41,13 +41,14 @@ if ($metodo === 'GET') {
             $stmt->bindParam(':email', $dados['email']);
 
             $stmt->execute();
-
+            $result->debugDumpParams();
             // Retornar resposta de sucesso
             echo json_encode([
                 "mensagem" => "Usuário cadastrado com sucesso!",
                 "usuario" => $dados
             ]);
         } catch (PDOException $e) {
+            $result->debugDumpParams();
             http_response_code(500);
             echo json_encode(["mensagem" => "Erro ao cadastrar usuário: " . $e->getMessage()]);
         }
