@@ -1142,3 +1142,100 @@ a:focus {
 .logo{
   width: 40px;
 }
+
+.btn_cadastro{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px; 
+}
+
+.links-cadastro {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px; 
+  margin-top: 15px;
+
+}
+
+.contact_section .links-cadastro a {
+  text-decoration: none;
+  color: #659339;
+  font-weight: bold;
+}
+
+.contact_section .links-cadastro a:hover {
+  text-decoration: underline;
+  color: #37531e;
+}
+
+.contact_section .links-cadastro p {
+  margin: 0;
+}
+
+
+.contact_section .form-cadastro {
+  margin-right: 0px;
+  margin-top: 30px;
+}
+
+.contact_section .form-cadastro input {
+  width: 100%;
+  border: 1px solid #659339;
+  height: 50px;
+  margin-bottom: 25px;
+  padding-left: 15px;
+  background-color: transparent;
+  outline: none;
+  color: #101010;
+}
+
+.contact_section .form-cadastro input::-webkit-input-placeholder {
+  color: #659339;
+}
+
+.contact_section .form-cadastro input:-ms-input-placeholder {
+  color: #659339;
+}
+
+.contact_section .form-cadastro input::-ms-input-placeholder {
+  color: #659339;
+}
+
+.contact_section .form-cadastro input::placeholder {
+  color: #3a3a3a;
+}
+
+.contact_section .form-cadastro input.message-box {
+  height: 120px;
+}
+
+.contact_section .form-cadastro button {
+  border: none;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 15px 65px;
+  background-color: #659339;
+  color: #ffffff;
+  border-radius: 0;
+  font-weight: bold;
+}
+
+.contact_section .form-cadastro button:hover {
+  background-color: #37531e;
+}
+
+.radio-tipo input[type="radio"] {
+  transform: scale(0.6); 
+  margin-right: 8px; 
+  cursor: pointer;    
+}
+
+.radio-tipo label {
+  margin-right: 40px;    
+  cursor: pointer;
+}
+
+.radio-tipo input[type="radio"]:checked {
+  accent-color: #37531e; 
+}
