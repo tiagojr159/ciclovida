@@ -28,29 +28,30 @@ if ($metodo === 'GET') {
 
     $dados = json_decode(file_get_contents("php://input"), true);
 
-    if ($dados && isset($dados['nome']) && isset($dados['tipo']) && isset($dados['email']) && isset($dados['senha'])) {
+    if ($dados && isset($dados['nome']) && isset($dados['tipoPessoa']) && isset($dados['email']) && isset($dados['senha'])) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO usuario (nome, tipo, endereco, telefone, documento, senha, cep, email) VALUES (:nome, :tipo, :endereco, :telefone, :documento, :senha, :cep, :email)");
+            $stmt = $pdo->prepare("INSERT INTO usuario (nome, tipo, endereco, telefone, documento, senha, cep, email) VALUES (:nome, :tipoPessoa, :endereco, :telefone, :documento, :senha, :cep, :email)");
             $stmt->bindParam(':nome', $dados['nome']);
-            $stmt->bindParam(':tipo', $dados['tipo']);
+            $stmt->bindParam(':tipoPessoa', $dados['tipoPessoa']);
             $stmt->bindParam(':endereco', $dados['endereco']);
             $stmt->bindParam(':telefone', $dados['telefone']);
             $stmt->bindParam(':documento', $dados['documento']);
             $stmt->bindParam(':senha', $dados['senha']);
             $stmt->bindParam(':cep', $dados['cep']);
             $stmt->bindParam(':email', $dados['email']);
-
             $stmt->execute();
-            $result->debugDumpParams();
-            // Retornar resposta de sucesso
+
             echo json_encode([
                 "mensagem" => "Usuário cadastrado com sucesso!",
                 "usuario" => $dados
             ]);
         } catch (PDOException $e) {
-            $result->debugDumpParams();
             http_response_code(500);
             echo json_encode(["mensagem" => "Erro ao cadastrar usuário: " . $e->getMessage()]);
+            foreach ($dados as $chave => $valor) {
+                $sql = str_replace(":$chave", "'" . addslashes($valor) . "'", $sql);
+            }
+            echo $sql;
         }
     } else {
         http_response_code(400);

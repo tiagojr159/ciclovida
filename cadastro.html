@@ -127,11 +127,11 @@
                   <label for="">CEP:</label>
                   <input id="cep" type="text" placeholder="CEP" />
                 </div>
-                <div id="password" style="margin-top: 10px;">
+                <div id="senha" style="margin-top: 10px;">
                   <label>Senha:</label>
                   <input required type="password" id="password" placeholder="Senha" />
                 </div>
-                <div id="password_confirm" style="margin-top: 10px;">
+                <div id="senha2" style="margin-top: 10px;">
                   <label>Confirme sua senha:</label>
                   <input required type="password" id="password_confirm" placeholder="Confirme sua senha" />
                 </div>
@@ -186,7 +186,7 @@
       $('#telefone').mask('(00) 00000-0000');
       $('#cpf').mask('000.000.000-00');
       $('#cnpj').mask('00.000.000/0000-00');
-     // $('#cep').mask('00.000-000');
+      // $('#cep').mask('00.000-000');
 
       // Mostrar/ocultar CPF ou CNPJ
       $('input[name="tipoPessoa"]').change(function () {
@@ -209,7 +209,7 @@
       const tipoPessoa = document.querySelector('input[name="tipoPessoa"]:checked').value;
       const endereco = document.getElementById('endereco').value.trim();
       const documento = document.getElementById('documento').value.trim();
-     // const cep = document.getElementById('cep').value.trim();
+      const cep = document.getElementById('cep').value.trim();
       const senha = document.getElementById('password').value;
       const senhaConfirm = document.getElementById('password_confirm').value;
 
@@ -235,10 +235,11 @@
         tipoPessoa,
         documento,
         endereco,
-        cep,
-        senha
+        senha,
+        cep
       };
-      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
+      // axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
+      axios.post('http://localhost/ciclovida/api_php/usuarios.php', dadosCadastro)
         .then(function (response) {
           alert('Cadastro realizado com sucesso!');
           window.location.href = 'login.html';
