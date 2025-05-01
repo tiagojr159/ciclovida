@@ -2420,15 +2420,13 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: #fff;;
+  border-color: #000000;
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  color: #fff;;
+  border-color: #000000;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -2461,7 +2459,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary:hover {
   color: #fff;
-  background-color: #5a6268;
+  background-color: #4a7ea6;
   border-color: #545b62;
 }
 
