@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Editar Perfil</title>
+
+  <!-- Estilos externos -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <!-- Estilos internos -->
+  <style>
+    .card-custom {
+      max-width: 800px;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 20px;
+    }
+
+    .logo-img {
+      height: 80px;
+      margin-bottom: 10px;
+    }
+
+    .titulo-perfil {
+      font-weight: 700;
+    }
+
+    .btn-salvar {
+      border: none;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 15px 65px;
+      background-color: #659339;
+      color: #ffffff;
+      border-radius: 0;
+      font-weight: bold;
+    }
+    }
+  </style>
+</head>
+
+<body class="sub_page">
+  <!-- Header -->
+  <header class="header_section">
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class=""> </span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mr-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">Sobre</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Catálogo</a></li>
+              </ul>
+            </div>
+            <div class="quote_btn-container">
+              <div id="labelUsuario"></div>
+              <a href="login.html">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Entrar</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Editar Perfil Section -->
+  <section class="contact_section layout_padding-bottom">
+    <div class="container d-flex justify-content-center">
+      <div class="card shadow-lg p-5 card-custom w-100" style="max-width: 900px; border-radius: 20px;">
+        <div class="text-center mb-4">
+          <img src="images/img_editar.png" alt="Logo da Marca" class="logo-img" style="height: 80px;">
+          <h3 class="mb-2 titulo-perfil">Atualize seu Perfil</h3>
+          <p class="text-muted">Mantenha suas informações sempre atualizadas para uma melhor experiência.</p>
+        </div>
+
+        <form id="form-editar" onsubmit="editarPerfil(event)">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Nome completo</label>
+              <input type="text" id="nome" class="form-control" placeholder="Digite seu nome" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Email</label>
+              <input type="email" id="email" class="form-control" placeholder="Seu e-mail" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Telefone</label>
+              <input type="text" id="telefone" class="form-control" placeholder="(00) 00000-0000" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Tipo de Pessoa</label>
+              <select id="tipo" class="form-control" required>
+                <option value="fisica">Pessoa Física</option>
+                <option value="juridica">Pessoa Jurídica</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Documento (CPF/CNPJ)</label>
+              <input type="text" id="documento" class="form-control" placeholder="Informe o CPF ou CNPJ" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Endereço</label>
+              <input type="text" id="endereco" class="form-control" placeholder="Rua, número, bairro..." required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>CEP</label>
+              <input type="text" id="cep" class="form-control" placeholder="00000-000" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Senha</label>
+              <input type="password" id="senha" class="form-control" placeholder="Escolha uma senha segura" required>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg btn-success px-5 py-2 btn-salvar">
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>&copy; <span id="displayYear"></span>© 2025 All Rights Reserved By Free Html Templates</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#telefone').mask('(00) 00000-0000');
+      $('#cep').mask('00000-000');
+    });
+
+    function editarPerfil(event) {
+      event.preventDefault();
+
+      const dados = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        tipoPessoa: document.getElementById('tipo').value,
+        documento: document.getElementById('documento').value,
+        endereco: document.getElementById('endereco').value,
+        cep: document.getElementById('cep').value,
+        senha: document.getElementById('senha').value
+      };
+
+      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/editar_perfil.php', dados)
+        .then(response => {
+          alert('Perfil atualizado com sucesso!');
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar perfil:', error);
+          alert('Erro ao salvar alterações. Tente novamente.');
+        });
+    }
+  </script>
+</body>
+
+</html>
