@@ -56,7 +56,7 @@
                   <a class="nav-link" href="about.html"> Sobre</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contato</a>
+                  <a class="nav-link" href="contact.html">Catálogo</a>
                 </li>
               </ul>
             </div>
@@ -70,87 +70,79 @@
                 </span>
               </a>
             </div>
-          </div>
-        </nav>
-      </div>
-    </div>
-  </header>
-  <!-- contact section -->
-  <section class="contact_section layout_padding-bottom">
-    <div class="container">
-      <!-- Logo e Título centralizados -->
-      <div class="text-center mb-4">
-        <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;margin-top: 30px;">
-        <h3>Seja bem-vindo(a) ao Ciclo Vivo</h3>
-        <p>Preencha os dados abaixo e crie sua conta</p>
-      </div>
+          </header>
+          <!-- contact section -->
+          <section class="contact_section layout_padding-bottom">
+            <div class="container d-flex justify-content-center">
+              <!-- Box centralizada -->
+              <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
+            <!-- Logo e Título centralizados -->
+            <div class="text-center mb-4">
+              <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
+              <h3>Seja bem-vindo(a) ao Ciclo Vivo</h3>
+              <p>Preencha os dados abaixo e crie sua conta</p>
+            </div>
 
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <!-- Painel de fundo -->
-          <div>
+            <!-- Formulário -->
             <div class="form-cadastro">
               <form id="form-cadastro" onsubmit="realizarCadastro(event)">
                 <div>
-                  <label for="">Nome completo ou nome da empresa:</label>
-                  <input required id="nome" type="text" placeholder="Nome completo ou nome da empresa" />
+              <label for="">Nome completo ou nome da empresa:</label>
+              <input required id="nome" type="text" placeholder="Nome completo ou nome da empresa" style="border-radius: 10px;" />
                 </div>
                 <div>
-                  <label>Email:</label>
-                  <input required id="email" type="email" placeholder="Email" />
+              <label>Email:</label>
+              <input required id="email" type="email" placeholder="Email" style="border-radius: 10px;" />
                 </div>
                 <div>
-                  <label>Telefone:</label>
-                  <input required type="text" id="telefone" placeholder="Telefone para contato" />
+              <label>Telefone:</label>
+              <input required type="text" id="telefone" placeholder="Telefone para contato" style="border-radius: 10px;" />
                 </div>
                 <div class="radio-tipo">
-                  <label>
-                    <input type="radio" name="tipoPessoa" value="fisica" checked> Pessoa Física
-                  </label>
-                  <label>
-                    <input type="radio" name="tipoPessoa" value="juridica"> Pessoa Jurídica
-                  </label>
+              <label>
+                <input type="radio" name="tipoPessoa" value="fisica" checked> Pessoa Física
+              </label>
+              <label>
+                <input type="radio" name="tipoPessoa" value="juridica"> Pessoa Jurídica
+              </label>
                 </div>
                 <div id="cpfField" style="margin-top: 10px;">
-                  <label for="">CPF:</label>
-                  <input type="text" id="documento" placeholder="CPF" />
+              <label for="">CPF:</label>
+              <input type="text" id="documento" placeholder="CPF" style="border-radius: 10px;" />
                 </div>
                 <div id="cnpjField" style="margin-top: 10px; display: none;">
-                  <label>CNPJ:</label>
-                  <input type="text" id="documento" placeholder="CNPJ" />
+              <label>CNPJ:</label>
+              <input type="text" id="documento" placeholder="CNPJ" style="border-radius: 10px;" />
                 </div>
                 <div>
-                  <label for="">Endereço:</label>
-                  <input required id="endereco" type="text" placeholder="Endereço" />
+              <label for="">Endereço:</label>
+              <input required id="endereco" type="text" placeholder="Endereço" style="border-radius: 10px;" />
                 </div>
                 <div>
-                  <label for="">CEP:</label>
-                  <input id="cep" type="text" placeholder="CEP" />
+              <label for="">CEP:</label>
+              <input id="cep" type="text" placeholder="CEP" style="border-radius: 10px;" />
                 </div>
                 <div id="senha" style="margin-top: 10px;">
-                  <label>Senha:</label>
-                  <input required type="password" id="password" placeholder="Senha" />
+              <label>Senha:</label>
+              <input required type="password" id="password" placeholder="Senha" style="border-radius: 10px;" />
                 </div>
                 <div id="senha2" style="margin-top: 10px;">
-                  <label>Confirme sua senha:</label>
-                  <input required type="password" id="password_confirm" placeholder="Confirme sua senha" />
+              <label>Confirme sua senha:</label>
+              <input required type="password" id="password_confirm" placeholder="Confirme sua senha" style="border-radius: 10px;" />
                 </div>
                 <div class="links-cadastro">
-                  <p>Já possui uma conta?</p>
-                  <a href="login.html" class="link_login">Clique aqui</a>
+              <p>Já possui uma conta?</p>
+              <a href="login.html" class="link_login">Clique aqui</a>
                 </div>
                 <!-- Botão de envio -->
                 <div class="btn_cadastro">
-                  <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button type="submit" class="btn btn-primary" >Cadastrar</button>
                 </div>
-
               </form>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+              </div>
+            </div>
+          </section>
 
   <!-- end contact section -->
 
