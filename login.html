@@ -162,7 +162,7 @@
       })
         .then(function (response) {
           alert('Login realizado com sucesso!');
-          localStorage.setItem('usuarioLogado', JSON.stringify(response.data.usuario));
+          localStorage.setItem('usuarioLogado', JSON.stringify(response.data));
           window.location.href = 'index.html';
         })
         .catch(function (error) {
