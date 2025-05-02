@@ -1172,13 +1172,13 @@ a:focus {
 
 .contact_section .links-cadastro a {
   text-decoration: none;
-  color: #659339;
+  color: #044fa1;
   font-weight: bold;
 }
 
 .contact_section .links-cadastro a:hover {
   text-decoration: underline;
-  color: #37531e;
+  color: #053975;
 }
 
 .contact_section .links-cadastro p {
@@ -1193,7 +1193,7 @@ a:focus {
 
 .contact_section .form-cadastro input {
   width: 100%;
-  border: 1px solid #659339;
+  border: 1px solid #044fa1;
   height: 50px;
   margin-bottom: 25px;
   padding-left: 15px;
@@ -1202,16 +1202,22 @@ a:focus {
   color: #101010;
 }
 
+.contact_section .form-cadastro textarea {
+  width: 100%;
+  border: 1px solid #044fa1;
+  margin-bottom: 25px;
+  padding-left: 15px;
+  background-color: transparent;
+  outline: none;
+  color: #101010;
+}
+
 .contact_section .form-cadastro input::-webkit-input-placeholder {
-  color: #659339;
+  color: #044fa1;
 }
 
 .contact_section .form-cadastro input:-ms-input-placeholder {
-  color: #659339;
-}
-
-.contact_section .form-cadastro input::-ms-input-placeholder {
-  color: #659339;
+  color: #044fa1;
 }
 
 .contact_section .form-cadastro input::placeholder {
@@ -1227,14 +1233,14 @@ a:focus {
   text-transform: uppercase;
   display: inline-block;
   padding: 15px 65px;
-  background-color: #659339;
+  background-color: #044fa1;
   color: #ffffff;
   border-radius: 0;
   font-weight: bold;
 }
 
 .contact_section .form-cadastro button:hover {
-  background-color: #37531e;
+  background-color: #053975;
 }
 
 .radio-tipo input[type="radio"] {
@@ -1249,5 +1255,5 @@ a:focus {
 }
 
 .radio-tipo input[type="radio"]:checked {
-  accent-color: #37531e; 
+  accent-color: #044fa1; 
 }
