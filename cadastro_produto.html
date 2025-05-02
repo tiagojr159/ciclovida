@@ -134,23 +134,37 @@
   <script src="js/custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-
     function realizarCadastro(event) {
       event.preventDefault();
-
-      // Obter os valores dos campos
+  
+      // Obter os valores dos campos do formulário
       const nome = document.getElementById('nome').value.trim();
       const quantidade = document.getElementById('quantidade').value.trim();
       const descricao = document.getElementById('descricao').value.trim();
-
+  
+      // Aqui você pode adaptar a lógica para recuperar id_user e id_ponto do localStorage ou de outro lugar
+      const id_user = localStorage.getItem('id_user');
+      const id_ponto = localStorage.getItem('id_ponto');
+  
+    /*  if (!id_user || !id_ponto) {
+        alert("Usuário ou ponto de coleta não estáo definidos.");
+        return;
+      }*/
+  
       const dadosCadastro = {
         nome,
-        quantidade,
-        descricao
+        quantidade: parseInt(quantidade),
+        descricao,
+        id_user: 1,
+        id_ponto: 1,
+        valor: 0.00
       };
-      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/item.php', dadosCadastro)
+  
+      axios.post('http://localhost/ciclovida/api_php/item.php', dadosCadastro)
         .then(function (response) {
-          alert('Produto cadastrado com sucesso');
+          alert('Produto cadastrado com sucesso!');
+          window.location.href = 'lista_produtos.html';
+          document.getElementById('form-cadastro').reset();
         })
         .catch(function (error) {
           console.error('Erro ao realizar cadastro:', error);

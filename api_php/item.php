@@ -38,9 +38,47 @@ if ($metodo === 'GET') {
 } elseif ($metodo === 'POST') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
-    if ($dados && isset($dados['nome'], $dados['id_ponto'], $dados['id_user'])) {
+    if (!$dados) {
+        http_response_code(400);
+        echo json_encode(["erro" => "JSON inválido."]);
+        exit;
+    }
+
+    // Atualização de item se vier com 'id_original'
+    if (isset($dados['id_original'])) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO itens (nome, id_ponto, quantidade, id_user, descricao, valor) VALUES (:nome, :id_ponto, :quantidade, :id_user, :descricao, :valor)");
+            $stmt = $pdo->prepare("UPDATE itens SET 
+                nome = :nome, 
+                id_ponto = :id_ponto, 
+                quantidade = :quantidade, 
+                id_user = :id_user, 
+                descricao = :descricao, 
+                valor = :valor 
+                WHERE id = :id_original");
+
+            $stmt->execute([
+                ':nome' => $dados['nome'],
+                ':id_ponto' => $dados['id_ponto'],
+                ':quantidade' => $dados['quantidade'],
+                ':id_user' => $dados['id_user'],
+                ':descricao' => $dados['descricao'],
+                ':valor' => $dados['valor'],
+                ':id_original' => $dados['id_original']
+            ]);
+
+            echo json_encode(["mensagem" => "Item atualizado com sucesso!"]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(["erro" => "Erro ao atualizar item: " . $e->getMessage()]);
+        }
+
+        // Cadastro de novo item
+    } elseif (isset($dados['nome'])) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO itens 
+                (nome, id_ponto, quantidade, id_user, descricao, valor) 
+                VALUES (:nome, :id_ponto, :quantidade, :id_user, :descricao, :valor)");
+
             $stmt->execute([
                 ':nome' => $dados['nome'],
                 ':id_ponto' => $dados['id_ponto'],

@@ -149,28 +149,32 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     $(document).ready(function () {
-      // Máscaras
       $('#telefone').mask('(00) 00000-0000');
-      $('#cep').mask('00.000-000');
     });
+  
     function realizarCadastro(event) {
       event.preventDefault();
-
-      // Obter os valores dos campos
+  
       const nome = document.getElementById('nome').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
       const responsavel = document.getElementById('responsavel').value.trim();
       const endereco = document.getElementById('endereco').value.trim();
-
+      const latitude = document.getElementById('latitude').value.trim();
+      const longitude = document.getElementById('Longitude').value.trim();
+  
       const dadosCadastro = {
         nome,
         telefone,
         responsavel,
-        endereco
+        endereco,
+        latitude,
+        longitude
       };
-      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php', dadosCadastro)
+  
+      axios.post('http://localhost/ciclovida/api_php/ponto_coleta.php', dadosCadastro)
         .then(function (response) {
-          alert('Ponto cadastrado com sucesso');
+          alert('Ponto de coleta cadastrado com sucesso!');
+          document.getElementById('form-cadastro').reset();
         })
         .catch(function (error) {
           console.error('Erro ao realizar cadastro:', error);

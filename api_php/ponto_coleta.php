@@ -36,30 +36,68 @@ if ($metodo === 'GET') {
         echo json_encode(["erro" => "Erro ao buscar dados: " . $e->getMessage()]);
     }
 
-} elseif ($metodo === 'POST') {
+}  elseif ($metodo === 'POST') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
-    if ($dados && isset($dados['nome_ponto'], $dados['endereco'])) {
+    if (!$dados) {
+        http_response_code(400);
+        echo json_encode(["erro" => "JSON inválido."]);
+        exit;
+    }
+
+    // Atualização se vier com 'id_original'
+    if (isset($dados['id_original'])) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO ponto_coleta (nome_ponto, endereco, descricao, responsavel, contato) VALUES (:nome_ponto, :endereco, :descricao, :responsavel, :contato)");
+            $stmt = $pdo->prepare("UPDATE ponto_coleta SET 
+                nome_ponto = :nome,
+                telefone = :telefone,
+                responsavel = :responsavel,
+                endereco = :endereco,
+                lat = :latitude,
+                log = :longitude
+                WHERE id = :id_original");
+
             $stmt->execute([
-                ':nome_ponto' => $dados['nome_ponto'],
+                ':nome' => $dados['nome'],
+                ':telefone' => $dados['telefone'],
+                ':responsavel' => $dados['responsavel'],
                 ':endereco' => $dados['endereco'],
-                ':descricao' => $dados['descricao'] ?? null,
-                ':responsavel' => $dados['responsavel'] ?? null,
-                ':contato' => $dados['contato'] ?? null
+                ':latitude' => $dados['latitude'],
+                ':longitude' => $dados['longitude'],
+                ':id_original' => $dados['id_original']
+            ]);
+
+            echo json_encode(["mensagem" => "Ponto atualizado com sucesso!"]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(["erro" => "Erro ao atualizar ponto: " . $e->getMessage()]);
+        }
+
+    // Cadastro se não houver id_original
+    } elseif (isset($dados['nome'], $dados['telefone'], $dados['endereco'])) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO ponto_coleta 
+                (nome_ponto, telefone, responsavel, endereco, lat, log) 
+                VALUES (:nome, :telefone, :responsavel, :endereco, :latitude, :longitude)");
+
+            $stmt->execute([
+                ':nome' => $dados['nome'],
+                ':telefone' => $dados['telefone'],
+                ':responsavel' => $dados['responsavel'],
+                ':endereco' => $dados['endereco'],
+                ':latitude' => $dados['latitude'],
+                ':longitude' => $dados['longitude']
             ]);
 
             echo json_encode(["mensagem" => "Ponto de coleta cadastrado com sucesso!"]);
         } catch (PDOException $e) {
             http_response_code(500);
-            echo json_encode(["erro" => "Erro ao cadastrar: " . $e->getMessage()]);
+            echo json_encode(["erro" => "Erro ao cadastrar ponto: " . $e->getMessage()]);
         }
     } else {
         http_response_code(400);
-        echo json_encode(["erro" => "Campos obrigatórios: nome_ponto, endereco"]);
+        echo json_encode(["erro" => "Campos obrigatórios ausentes."]);
     }
-
 } elseif ($metodo === 'PUT') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
