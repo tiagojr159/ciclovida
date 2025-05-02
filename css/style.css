@@ -1257,3 +1257,75 @@ a:focus {
 .radio-tipo input[type="radio"]:checked {
   accent-color: #044fa1; 
 }
+
+.btn-teal {
+  background: linear-gradient(to right, #00c9a7, #17a2b8);
+  color: #fff;
+  border: none;
+  transition: background 0.3s ease;
+}
+.btn-teal:hover {
+  background: linear-gradient(to right, #17a2b8, #00c9a7);
+}
+
+.chatbot-section {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.chat-input-group input {
+  border: 1px solid #ced4da;
+  padding: 10px 15px;
+}
+
+.chat-input-group button {
+  padding: 10px 20px;
+  border: none;
+}
+
+.chat-window {
+  background-color: #ffffff;
+  height: 300px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+}
+
+.chat-message.user {
+  text-align: right;
+}
+
+.chat-message.bot {
+  text-align: left;
+}
+
+.chat-bubble {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.chat-bubble.user {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.chat-bubble.bot {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+.btn-teal {
+  background: linear-gradient(to right, #00d9a1, #0061e8);
+  color: #fff;
+  border: none;
+  transition: background 0.3s ease;
+}
+.btn-teal:hover {
+  background: linear-gradient(to right, #0061e8, #00d9a1);
+}
