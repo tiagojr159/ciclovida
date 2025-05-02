@@ -162,7 +162,7 @@
       responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
 
       
-      axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php')
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
         .then(function (response) {
           const select = document.getElementById('ponto_coleta');
           select.innerHTML = '';
@@ -219,7 +219,7 @@ console.log(usuarioLogado);
     valor: 0.00
   };
 
-  axios.post('http://localhost/ciclovida/api_php/item.php', dadosCadastro)
+  axios.post('https://ciclovida.ki6.com.br/ciclovidahttp://localhost/ciclovida/api_php/item.php', dadosCadastro)
     .then(function () {
       alert('Produto cadastrado com sucesso!');
       window.location.href = 'lista_produtos.html';
