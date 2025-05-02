@@ -148,10 +148,16 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/bootstrap.js"></script>
-  <script src="js/custom.js"></script>
+
 
   <script>
     function fazerLogin(event) {
+      var usuarioLogado = localStorage.getItem('usuarioLogado');
+      if (usuarioLogado) {
+        alert('Você já está logado!');
+        window.location.href = 'index.html';
+        return;
+      }
       event.preventDefault();
       const documento = document.getElementById('documento').value;
       const senha = document.getElementById('senha').value;
@@ -162,7 +168,7 @@
       })
         .then(function (response) {
           alert('Login realizado com sucesso!');
-          localStorage.setItem('usuarioLogado', JSON.stringify(response.data));
+          localStorage.setItem('usuarioLogado', JSON.stringify(response.data.usuario));
           window.location.href = 'index.html';
         })
         .catch(function (error) {

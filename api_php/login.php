@@ -36,6 +36,7 @@ try {
             "mensagem" => "Login realizado com sucesso!",
             "usuario" => [
                 "nome" => $usuario['nome'],
+                "id_user" => $usuario['id'],
                 "documento" => $usuario['documento']
             ]
         ]);

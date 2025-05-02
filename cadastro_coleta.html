@@ -70,54 +70,56 @@
                 </span>
               </a>
             </div>
-          </header>
-          <!-- contact section -->
-          <section class="contact_section layout_padding-bottom">
-            <div class="container d-flex justify-content-center">
-              <!-- Box centralizada -->
-              <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
-            <!-- Logo e Título centralizados -->
-            <div class="text-center mb-4">
-              <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
-              <h3>Cadastro de ponto de coleta</h3>
-              <p>Preencha as informações e cadastre seu ponto de coleta</p>
-            </div>
+  </header>
+  <!-- contact section -->
+  <section class="contact_section layout_padding-bottom">
+    <div class="container d-flex justify-content-center">
+      <!-- Box centralizada -->
+      <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
+        <!-- Logo e Título centralizados -->
+        <div class="text-center mb-4">
+          <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
+          <h3>Cadastro de ponto de coleta</h3>
+          <p>Preencha as informações e cadastre seu ponto de coleta</p>
+        </div>
 
-            <!-- Formulário -->
-            <div class="form-cadastro">
-              <form id="form-cadastro" onsubmit="realizarCadastro(event)">
-                <div>
+        <!-- Formulário -->
+        <div class="form-cadastro">
+          <form id="form-cadastro" onsubmit="realizarCadastro(event)">
+            <div>
               <label for="">Nome do ponto de coleta:</label>
-              <input required id="nome" type="text" placeholder="Nome do ponto de coleta" style="border-radius: 10px;" />
-                </div>
-                <div>
+              <input required id="nome" type="text" placeholder="Nome do ponto de coleta"
+                style="border-radius: 10px;" />
+            </div>
+            <div>
               <label>Telefone:</label>
-              <input required type="text" id="telefone" placeholder="Telefone para contato" style="border-radius: 10px;" />
-                </div>
-                <div style="margin-top: 10px;">
+              <input required type="text" id="telefone" placeholder="Telefone para contato"
+                style="border-radius: 10px;" />
+            </div>
+            <div style="margin-top: 10px;">
               <label for="">Responsável:</label>
               <input type="text" id="responsavel" placeholder="Responsável" style="border-radius: 10px;" />
-                </div>
-                <div>
+            </div>
+            <div>
               <label for="">Endereço:</label>
               <input required id="endereco" type="text" placeholder="Endereço" style="border-radius: 10px;" />
-                </div>
-              <div>
-                <label for="">Latitude:</label>
-                <input required id="latitude" type="text" placeholder="Latitude" style="border-radius: 10px;" />
-              </div>
-              <div>
-                <label for="">Longitude:</label>
-                <input required id="Longitude" type="text" placeholder="Longetude" style="border-radius: 10px;" />
-              </div>
-              <div class="btn_cadastro">
-                <button type="submit" class="btn btn-primary" >Cadastrar ponto de coleta</button>
-              </div>
-              </form>
             </div>
-              </div>
+            <div>
+              <label for="">Latitude:</label>
+              <input required id="latitude" type="text" placeholder="Latitude" style="border-radius: 10px;" />
             </div>
-          </section>
+            <div>
+              <label for="">Longitude:</label>
+              <input required id="Longitude" type="text" placeholder="Longetude" style="border-radius: 10px;" />
+            </div>
+            <div class="btn_cadastro">
+              <button type="submit" class="btn btn-primary">Cadastrar ponto de coleta</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- end contact section -->
 
@@ -148,20 +150,22 @@
   <script src="js/custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+    var usuarioLogado = localStorage.getItem('usuarioLogado');
+
     $(document).ready(function () {
       $('#telefone').mask('(00) 00000-0000');
     });
-  
+
     function realizarCadastro(event) {
       event.preventDefault();
-  
+
       const nome = document.getElementById('nome').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
-      const responsavel = document.getElementById('responsavel').value.trim();
+      const responsavel = JSON.parse(usuarioLogado).nome;
       const endereco = document.getElementById('endereco').value.trim();
       const latitude = document.getElementById('latitude').value.trim();
       const longitude = document.getElementById('Longitude').value.trim();
-  
+
       const dadosCadastro = {
         nome,
         telefone,
@@ -170,7 +174,7 @@
         latitude,
         longitude
       };
-  
+
       axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php', dadosCadastro)
         .then(function (response) {
           alert('Ponto de coleta cadastrado com sucesso!');
@@ -183,4 +187,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -652,8 +652,8 @@ amarelo #fde01b
   <script>
     var usuarioLogado = localStorage.getItem('usuarioLogado');
     var labelUsuario = document.getElementById('labelUsuario');
-    console.log(usuarioLogado);
-    labelUsuario.innerHTML = usuarioLogado ? 'Usuário: ' + JSON.parse(usuarioLogado).documento : 'Usuário não logado';
+    console.log(JSON.parse(usuarioLogado));
+    labelUsuario.innerHTML = usuarioLogado ? 'Usuário: ' + JSON.parse(usuarioLogado).nome : 'Usuário não logado';
   </script>
 
 

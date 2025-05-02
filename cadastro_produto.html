@@ -70,42 +70,60 @@
                 </span>
               </a>
             </div>
-          </header>
-          <!-- contact section -->
-          <section class="contact_section layout_padding-bottom">
-            <div class="container d-flex justify-content-center">
-              <!-- Box centralizada -->
-              <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
-            <!-- Logo e título centralizados -->
-            <div class="text-center mb-4">
-              <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
-              <h3>Cadastro de produtos</h3>
-              <p>Preencha as informações e cadastre seu produto para doação</p>
+  </header>
+  <!-- contact section -->
+  <section class="contact_section layout_padding-bottom">
+    <div class="container d-flex justify-content-center">
+      <!-- Box centralizada -->
+      <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
+        <!-- Logo e título centralizados -->
+        <div class="text-center mb-4">
+          <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
+          <h3>Cadastro de produtos</h3>
+          <p>Preencha as informações e cadastre seu produto para doação</p>
+        </div>
+
+        <!-- Formulário ARRUMAR O ALINHAMENTO DO CAMPO QUANTIDADE -->
+        <div class="form-cadastro">
+          <form id="form-cadastro" onsubmit="realizarCadastro(event)">
+
+            <div>
+              <label for="nome">Nome do produto:</label>
+              <input required id="nome" type="text" placeholder="Nome do ponto de coleta"
+                style="border-radius: 10px;" />
             </div>
 
-            <!-- Formulário ARRUMAR O ALINHAMENTO DO CAMPO QUANTIDADE -->
-            <div class="form-cadastro">
-              <form id="form-cadastro" onsubmit="realizarCadastro(event)">
-                <div>
-              <label for="">Nome do produto:</label>
-              <input required id="nome" type="text" placeholder="Nome do ponto de coleta" style="border-radius: 10px;" />
-                </div>
-                <div>
-              <label>Quantidade:</label>
+            <div>
+              <label for="quantidade">Quantidade:</label>
               <input required type="number" id="quantidade" style="border-radius: 10px; width: 100px;" />
-                </div>
-                <div style="margin-top: 10px;">
-              <label for="">Descrição:</label>
-              <textarea required id="descricao"  placeholder="Escreva uma descrição sobre o produto" rows="4" cols="81"></textarea>
-                </div>
-              <div class="btn_cadastro">
-                <button type="submit" class="btn btn-primary" >Cadastrar produto</button>
-              </div>
-              </form>
             </div>
-              </div>
+
+            <div style="margin-top: 10px;">
+              <label for="responsavel">Responsável:</label>
+              <div id="responsavel" style="border-radius: 10px; width: 100px;"></div>
             </div>
-          </section>
+            <br>
+
+            <div style="margin-top: 10px;">
+              <label for="ponto_coleta">Selecionar Ponto de Coleta:</label><br>
+              <select id="ponto_coleta" required class="form-control" style="border-radius: 10px; width: 100%;">
+                <option value="">Selecione um ponto</option>
+              </select>
+            </div>
+        </div>
+        <div style="margin-top: 10px;">
+          <label for="descricao">Descrição:</label>
+          <textarea required id="descricao" placeholder="Escreva uma descrição sobre o produto" rows="4"
+            cols="81"></textarea>
+        </div>
+        <div class="btn_cadastro">
+          <button type="submit" class="btn btn-info">Cadastrar produto</button>
+        </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </section>
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -133,44 +151,92 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+
   <script>
-    function realizarCadastro(event) {
-      event.preventDefault();
-  
-      // Obter os valores dos campos do formulário
-      const nome = document.getElementById('nome').value.trim();
-      const quantidade = document.getElementById('quantidade').value.trim();
-      const descricao = document.getElementById('descricao').value.trim();
-  
-      // Aqui você pode adaptar a lógica para recuperar id_user e id_ponto do localStorage ou de outro lugar
-      const id_user = localStorage.getItem('id_user');
-      const id_ponto = localStorage.getItem('id_ponto');
-  
-    /*  if (!id_user || !id_ponto) {
-        alert("Usuário ou ponto de coleta não estáo definidos.");
-        return;
-      }*/
-  
-      const dadosCadastro = {
-        nome,
-        quantidade: parseInt(quantidade),
-        descricao,
-        id_user: 1,
-        id_ponto: 1,
-        valor: 0.00
-      };
-  
-      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', dadosCadastro)
+    document.addEventListener('DOMContentLoaded', function () {
+      const usuarioLogado = localStorage.getItem('usuarioLogado');
+      const responsavel = document.getElementById('responsavel');
+      responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
+
+      
+      axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php')
         .then(function (response) {
-          alert('Produto cadastrado com sucesso!');
-          window.location.href = 'lista_produtos.html';
-          document.getElementById('form-cadastro').reset();
+          const select = document.getElementById('ponto_coleta');
+          select.innerHTML = '';
+
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = 'Selecione um ponto';
+          select.appendChild(defaultOption);
+
+          response.data.forEach(ponto => {
+            const option = document.createElement('option');
+            option.value = ponto.id;
+            option.textContent = ponto.nome_ponto + ' - ' + (ponto.endereco || '');
+            select.appendChild(option);
+          });
+
+          // ESSA LINHA É ESSENCIAL:
+          $('select').niceSelect('update');
         })
         .catch(function (error) {
-          console.error('Erro ao realizar cadastro:', error);
-          alert('Erro ao realizar cadastro. Tente novamente.');
+          console.error('Erro ao carregar pontos de coleta:', error);
+          const select = document.getElementById('ponto_coleta');
+          select.innerHTML = '<option value="">Erro ao carregar pontos</option>';
         });
-    }
+
+
+    });
+
+
+    function realizarCadastro(event) {
+  event.preventDefault();
+
+  const usuarioLogado = localStorage.getItem('usuarioLogado');
+  const responsavel = document.getElementById('responsavel');
+  responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
+console.log(usuarioLogado);
+  const nome = document.getElementById('nome').value.trim();
+  const quantidade = document.getElementById('quantidade').value.trim();
+  const descricao = document.getElementById('descricao').value.trim();
+  const id_ponto = document.getElementById('ponto_coleta').value;
+  const id_user = JSON.parse(usuarioLogado).id; // <- aqui sim
+/*
+  if (!id_user || !id_ponto) {
+    alert("Usuário ou ponto de coleta não está definido.");
+    return;
+  }
+
+  const dadosCadastro = {
+    nome,
+    quantidade: parseInt(quantidade),
+    descricao,
+    id_user: parseInt(id_user),
+    id_ponto: parseInt(id_ponto),
+    valor: 0.00
+  };
+
+  axios.post('http://localhost/ciclovida/api_php/item.php', dadosCadastro)
+    .then(function () {
+      alert('Produto cadastrado com sucesso!');
+      window.location.href = 'lista_produtos.html';
+      document.getElementById('form-cadastro').reset();
+    })
+    .catch(function (error) {
+      console.error('Erro ao realizar cadastro:', error);
+      alert('Erro ao realizar cadastro. Tente novamente.');
+    });
+
+
+    */
+}
+
   </script>
+
+
 </body>
+
 </html>
