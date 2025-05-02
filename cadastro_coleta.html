@@ -171,7 +171,7 @@
         longitude
       };
   
-      axios.post('http://localhost/ciclovida/api_php/ponto_coleta.php', dadosCadastro)
+      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php', dadosCadastro)
         .then(function (response) {
           alert('Ponto de coleta cadastrado com sucesso!');
           document.getElementById('form-cadastro').reset();

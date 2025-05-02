@@ -103,7 +103,7 @@
 
   <script>
     $(document).ready(function () {
-      axios.get('http://localhost/ciclovida/api_php/item.php')
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
         .then(function (response) {
           const dados = response.data;
           const tabela = $('#tabela-itens').DataTable({
