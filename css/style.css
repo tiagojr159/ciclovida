@@ -146,7 +146,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-  color: #252525;
+  color: #ffffff;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -265,7 +265,7 @@ a:focus {
 }
 
 .quote_btn-container a:hover {
-  color: #252525;
+  color: #ffffff;
 }
 
 /*end header section*/

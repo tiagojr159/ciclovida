@@ -42,7 +42,6 @@
       border-radius: 0;
       font-weight: bold;
     }
-    }
   </style>
 </head>
 
@@ -87,6 +86,7 @@
         </div>
 
         <form id="form-editar" onsubmit="editarPerfil(event)">
+          <input type="hidden" id="documento_original">
           <div class="row">
             <div class="form-group col-md-6">
               <label>Nome completo</label>
@@ -142,11 +142,10 @@
     </div>
   </section>
 
-
   <!-- Footer -->
   <footer class="footer_section">
     <div class="container">
-      <p>&copy; <span id="displayYear"></span>© 2025 All Rights Reserved By Free Html Templates</p>
+      <p>© <span id="displayYear"></span>© 2025 All Rights Reserved By Free Html Templates</p>
     </div>
   </footer>
 
@@ -158,33 +157,124 @@
 
   <script>
     $(document).ready(function () {
+      // Máscaras
       $('#telefone').mask('(00) 00000-0000');
       $('#cep').mask('00000-000');
+
+      // Ajustar máscara do documento com base no tipo de pessoa
+      $('#tipo').change(function () {
+        const tipo = $(this).val();
+        $('#documento').val(''); // Limpa o campo ao mudar o tipo
+        if (tipo === 'fisica') {
+          $('#documento').mask('000.000.000-00');
+        } else {
+          $('#documento').mask('00.000.000/0000-00');
+        }
+      });
+
+      // Carregar dados do usuário
+      carregarDadosUsuario();
     });
+
+    function carregarDadosUsuario() {
+      // Supõe que o documento do usuário logado está armazenado no localStorage
+      const documento = localStorage.getItem('usuarioLogado');
+      if (!documento) {
+        alert('Usuário não está logado. Faça login para editar o perfil.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      console.log('Documento do usuário:', documento);
+      // Busca os dados do usuário na API
+      // axios.get('http://localhost/ciclovida/api_php/usuarios.php', {
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
+        params: { documento }
+      })
+        .then(response => {
+          const dados = response.data;
+          console.log(dados);
+          if (dados.success && dados.usuario) {
+            $('#nome').val(dados.usuario.nome);
+            $('#email').val(dados.usuario.email);
+            $('#telefone').val(dados.usuario.telefone);
+            $('#tipo').val(dados.usuario.tipoPessoa);
+            $('#documento').val(dados.usuario.documento);
+            $('#endereco').val(dados.usuario.endereco);
+            $('#cep').val(dados.usuario.cep);
+            $('#senha').val(dados.usuario.senha); // Senha pode não ser retornada por segurança
+            $('#documento_original').val(dados.usuario.documento);
+
+            // Aplica a máscara correta ao carregar
+            if (dados.usuario.tipoPessoa === 'fisica') {
+              $('#documento').mask('000.000.000-00');
+            } else {
+              $('#documento').mask('00.000.000/0000-00');
+            }
+          } else {
+            alert('Erro ao carregar dados do perfil.');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao carregar dados:', error);
+          alert('Erro ao carregar perfil. Tente novamente.');
+        });
+    }
 
     function editarPerfil(event) {
       event.preventDefault();
 
+      const documentoOriginal = document.getElementById('documento_original').value;
+      if (!documentoOriginal) {
+        alert('Erro: documento do usuário não encontrado.');
+        return;
+      }
+
       const dados = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        telefone: document.getElementById('telefone').value,
+        documento_original: documentoOriginal,
+        nome: document.getElementById('nome').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        telefone: document.getElementById('telefone').value.trim(),
         tipoPessoa: document.getElementById('tipo').value,
-        documento: document.getElementById('documento').value,
-        endereco: document.getElementById('endereco').value,
-        cep: document.getElementById('cep').value,
+        documento: document.getElementById('documento').value.trim(),
+        endereco: document.getElementById('endereco').value.trim(),
+        cep: document.getElementById('cep').value.trim(),
         senha: document.getElementById('senha').value
       };
 
-      axios.post('http://ciclovida.ki6.com.br/ciclovida/api_php/editar_perfil.php', dados)
+      // Validação básica
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(dados.email)) {
+        alert('Email inválido!');
+        return;
+      }
+      if (dados.senha && dados.senha.length < 8) {
+        alert('A senha deve ter no mínimo 8 caracteres!');
+        return;
+      }
+
+      // Desativa o botão para evitar múltiplos envios
+      const btnSalvar = document.querySelector('.btn-salvar');
+      btnSalvar.disabled = true;
+      // axios.post('http://localhost/ciclovida/api_php/usuarios.php', dados)
+      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dados)
         .then(response => {
+        if (response.data.success) {
           alert('Perfil atualizado com sucesso!');
-        })
-        .catch(error => {
-          console.error('Erro ao atualizar perfil:', error);
-          alert('Erro ao salvar alterações. Tente novamente.');
-        });
-    }
+          // Atualiza o documento no localStorage, caso tenha mudado
+          localStorage.setItem('userDocumento', dados.documento);
+        } else {
+          alert('Erro: ' + (response.data.message || 'Não foi possível atualizar o perfil.'));
+        }
+      })
+          .catch(error => {
+            console.error('Erro ao atualizar perfil:', error);
+            alert('Erro ao salvar alterações. Tente novamente.');
+          })
+          .finally(() => {
+            btnSalvar.disabled = false;
+          });
+      }
   </script>
 </body>
 
