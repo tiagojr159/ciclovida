@@ -75,9 +75,7 @@ if ($metodo === 'GET') {
             $stmt->bindParam(':cep', $dados['cep']);
             $stmt->bindParam(':email', $dados['email']);
             $stmt->bindParam(':documento_original', $dados['documento_original']);
-
             $stmt->execute();
-
             echo json_encode(["success" => true, "mensagem" => "Perfil atualizado com sucesso!"]);
         } catch (PDOException $e) {
             http_response_code(500);

@@ -86,13 +86,7 @@
             </div>
             <div class="quote_btn-container">
               <div id="labelUsuario"></div>
-              <a href="login.html">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <span>
-                  Entrar
-                </span>
-                <button onclick="logout()">Sair</button>
-              </a>
+         
               <a href="cadastro.html">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>
@@ -205,6 +199,39 @@
       // Atualiza o ano automaticamente
       document.getElementById('displayYear').textContent = new Date().getFullYear();
     });
+
+
+    var usuarioLogado = localStorage.getItem('usuarioLogado');
+    var labelUsuario = document.getElementById('labelUsuario');
+
+    var usuLog = 0;
+    try {
+      console.log(JSON.parse(usuarioLogado));
+      usuarioLogado = JSON.parse(usuarioLogado);
+      var usuLog = 1;
+    } catch (error) {
+      console.log('Usuário não logado');
+      usuarioLogado = null;
+    }
+    if (usuLog == 1) {
+      labelUsuario.innerHTML = `
+      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
+        ${usuarioLogado.nome}
+      </span>
+
+      <span onclick="logout()" style="color: #fde01b; font-weight: bold; margin-right: 10px;">
+        Logout
+      </span>
+    `;
+    } else {
+      labelUsuario.innerHTML = `
+      <a href="login.html">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span style="color: #fde01b;">Entrar</span>
+      </a>
+     `;
+    }
+
   </script>
 </body>
 

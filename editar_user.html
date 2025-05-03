@@ -55,7 +55,8 @@
           </a>
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -101,7 +102,7 @@
       </div>
     </div>
   </header>
-  
+
 
   <!-- Editar Perfil Section -->
   <section class="contact_section layout_padding-bottom">
@@ -133,7 +134,7 @@
 
             <div class="form-group col-md-6">
               <label>Tipo de Pessoa</label>
-              <select id="tipo" class="form-control" >
+              <select id="tipo" class="form-control">
                 <option value="fisica">Pessoa Física</option>
                 <option value="juridica">Pessoa Jurídica</option>
               </select>
@@ -205,7 +206,6 @@
     });
 
     function carregarDadosUsuario() {
-      // Supõe que o documento do usuário logado está armazenado no localStorage
       const documento = localStorage.getItem('usuarioLogado');
       if (!documento) {
         alert('Usuário não está logado. Faça login para editar o perfil.');
@@ -214,8 +214,6 @@
       }
 
       console.log('Documento do usuário:', documento);
-      // Busca os dados do usuário na API
-      // axios.get('http://localhost/ciclovida/api_php/usuarios.php', {
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
         params: { documento }
       })
@@ -234,10 +232,12 @@
             $('#documento_original').val(dados.usuario.documento);
 
             // Aplica a máscara correta ao carregar
-            if (dados.usuario.tipoPessoa === 'fisica') {
+            if (dados.usuario.tipo === 'fisica') {
               $('#documento').mask('000.000.000-00');
+              $('#tipo').val('fisica'); // valor do select
             } else {
               $('#documento').mask('00.000.000/0000-00');
+              $('#tipo').val('juridica'); // valor do select
             }
           } else {
             alert('Erro ao carregar dados do perfil.');
@@ -258,6 +258,8 @@
         return;
       }
 
+
+
       const dados = {
         documento_original: documentoOriginal,
         nome: document.getElementById('nome').value.trim(),
@@ -269,6 +271,7 @@
         cep: document.getElementById('cep').value.trim(),
         senha: document.getElementById('senha').value
       };
+      console.log('Dados a serem enviados:', dados);
 
       // Validação básica
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -287,22 +290,22 @@
       // axios.post('http://localhost/ciclovida/api_php/usuarios.php', dados)
       axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dados)
         .then(response => {
-        if (response.data.success) {
-          alert('Perfil atualizado com sucesso!');
-          // Atualiza o documento no localStorage, caso tenha mudado
-          localStorage.setItem('userDocumento', dados.documento);
-        } else {
-          alert('Erro: ' + (response.data.message || 'Não foi possível atualizar o perfil.'));
-        }
-      })
-          .catch(error => {
-            console.error('Erro ao atualizar perfil:', error);
-            alert('Erro ao salvar alterações. Tente novamente.');
-          })
-          .finally(() => {
-            btnSalvar.disabled = false;
-          });
-      }
+          if (response.data.success) {
+            alert('Perfil atualizado com sucesso!');
+            // Atualiza o documento no localStorage, caso tenha mudado
+            localStorage.setItem('userDocumento', dados.documento);
+          } else {
+            alert('Erro: ' + (response.data.message || 'Não foi possível atualizar o perfil.'));
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar perfil:', error);
+          alert('Erro ao salvar alterações. Tente novamente.');
+        })
+        .finally(() => {
+          btnSalvar.disabled = false;
+        });
+    }
   </script>
 </body>
 

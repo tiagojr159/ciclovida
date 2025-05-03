@@ -14,7 +14,7 @@
 
   <title>CicloVida</title>
 
-<!-- padrao #044fa1 por #044fa1 
+  <!-- padrao #044fa1 por #044fa1 
  
 amarelo #fde01b
 #fde01b
@@ -57,7 +57,8 @@ amarelo #fde01b
             </a>
             </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,13 +80,12 @@ amarelo #fde01b
               </div>
               <div class="quote_btn-container">
                 <div id="labelUsuario"></div>
-                <a href="home_user.html">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                  <span>
-                    Entrar
-                  </span>
-                  <button onclick="logout()">Sair</button>
-                </a>
+
+                <div class="quote_btn-container" id="authArea">
+                  <!-- Aqui o conteúdo será preenchido pelo JavaScript -->
+                </div>
+
+
                 <a href="cadastro.html">
                   <i class="fa fa-user" aria-hidden="true"></i>
                   <span>
@@ -191,7 +191,9 @@ amarelo #fde01b
                       </span>
                     </h1>
                     <p>
-                      Participe da nossa campanha de arrecadação de alimentos! Sua doação pode fazer a diferença na vida de muitas pessoas que precisam. Juntos, podemos combater a fome e levar esperança a quem mais necessita.
+                      Participe da nossa campanha de arrecadação de alimentos! Sua doação pode fazer a diferença na vida
+                      de muitas pessoas que precisam. Juntos, podemos combater a fome e levar esperança a quem mais
+                      necessita.
                     </p>
                     <a href="">
                       Fale Conosco
@@ -653,15 +655,42 @@ amarelo #fde01b
   <script>
     var usuarioLogado = localStorage.getItem('usuarioLogado');
     var labelUsuario = document.getElementById('labelUsuario');
-    console.log(JSON.parse(usuarioLogado));
-    labelUsuario.innerHTML = usuarioLogado ? 'Usuário: ' + JSON.parse(usuarioLogado).nome : 'Usuário não logado';
-  
+
+    var usuLog = 0;
+    try {
+      console.log(JSON.parse(usuarioLogado));
+      usuarioLogado = JSON.parse(usuarioLogado);
+      var usuLog = 1;
+    } catch (error) {
+      console.log('Usuário não logado');
+      usuarioLogado = null;
+    }
+    if (usuLog == 1) {
+      labelUsuario.innerHTML = `
+      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
+        ${usuarioLogado.nome}
+      </span>
+
+      <span onclick="logout()" style="color: #fde01b; font-weight: bold; margin-right: 10px;">
+        Logout
+      </span>
+    `;
+    } else {
+      labelUsuario.innerHTML = `
+      <a href="login.html">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span style="color: #fde01b;">Entrar</span>
+      </a>
+     `;
+    }
+
+
     function logout() {
       alert('Logout realizado com sucesso!');
       localStorage.removeItem('usuarioLogado');
       window.location.href = 'login.html';
     }
-  
+
   </script>
 
 
