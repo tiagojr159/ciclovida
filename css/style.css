@@ -140,13 +140,13 @@ a:focus {
 .custom_nav-container .navbar-nav .nav-item .nav-link {
   padding: 3px 15px;
   margin: 10px 15px;
-  color: #fde01b;
+  color: #ffffff;
   text-align: center;
   text-transform: uppercase;
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-  color: #ffffff;
+  color: #fde01b;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -255,7 +255,7 @@ a:focus {
 }
 
 .quote_btn-container a {
-  color: #fde01b;
+  color: #ffffff;
   margin-right: 25px;
   text-transform: uppercase;
 }
@@ -265,7 +265,7 @@ a:focus {
 }
 
 .quote_btn-container a:hover {
-  color: #ffffff;
+  color: #fde01b;
 }
 
 /*end header section*/
@@ -1135,7 +1135,7 @@ a:focus {
 /* footer section*/
 .footer_section {
   position: relative;
-  background-color: #252525;
+  background-color: #044fa1;
   text-align: center;
   flex: 1;
 }
