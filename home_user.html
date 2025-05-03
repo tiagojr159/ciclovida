@@ -142,30 +142,78 @@
             <p class="info-text" id="cepUsuario">00000-000</p>
           </div>
         </div>
-        <div class="row text-left mt-4">
-          <div class="col-md-12 mb-3">
-            <p class="info-label">Pontos de Coleta Cadastrados:</p>
-            <ul class="info-text">
-              <li><strong>EcoPonto Central</strong> - Rua das Flores, 123, São Paulo - SP</li>
-              <li><strong>Recicla Mais</strong> - Av. Verde Esperança, 456, Guarulhos - SP</li>
-            </ul>
-          </div>
-        
-          <div class="col-md-12 mb-3">
-            <p class="info-label">Produtos Cadastrados:</p>
-            <ul class="info-text">
-              <li><strong>Feijjão</strong> - Quantidade: 10 (Cadastrado em 01/05/2025)</li>
-              <li><strong>Açucar</strong> - Quantidade: 3 (Cadastrado em 02/05/2025)</li>
-              <li><strong>Batata</strong> - Quantidade: 15 (Cadastrado em 03/05/2025)</li>
-            </ul>
-          </div>
-        </div>
+       
         
         <a href="editar_user.html" class="btn-editar">Editar Perfil</a>
       </div>
     </div>
   </section>
 
+
+
+
+ <!-- Conteúdo -->
+ <section class="layout_padding-bottom">
+  <div class="container">
+    <!-- Tabela de Pontos de Coleta -->
+    <div class="card shadow-lg p-4 mb-5" style="border-radius: 20px;">
+      <div class="text-center mb-4">
+        <h3>Pontos de Coleta</h3>
+        <p>Veja os pontos de coleta registrados pelo sistema</p>
+      </div>
+      <div class="table-responsive">
+        <table id="tabela-coleta" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nome</th>
+              <th>Responsável</th>
+              <th>Telefone</th>
+              <th>Endereço</th>
+             
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabela de Produtos para Doação -->
+    <div class="card shadow-lg p-4" style="border-radius: 20px;">
+      <div class="text-center mb-4">
+        <h3>Produtos para Doação</h3>
+        <p>Veja os produtos disponíveis para doação</p>
+      </div>
+      <div class="table-responsive">
+        <table id="tabela-produtos" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
+          <thead class="thead-dark">
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Quantidade</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   <!-- Footer -->
   <footer class="footer_section">
     <div class="container">
@@ -177,6 +225,13 @@
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/bootstrap.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- DataTables -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -249,6 +304,57 @@
       </a>
      `;
     }
+
+    $(document).ready(function () {
+      // Carregar Pontos de Coleta
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
+        .then(function (response) {
+          $('#tabela-coleta').DataTable({
+            data: response.data,
+            responsive: true,
+            columns: [
+              { data: 'nome_ponto' },
+              { data: 'responsavel' },
+              { data: 'telefone' },
+              { data: 'endereco' }
+            ],
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+            }
+          });
+        })
+        .catch(function (error) {
+          console.error('Erro ao carregar pontos de coleta:', error);
+          alert('Erro ao carregar os pontos de coleta.');
+        });
+
+      // Carregar Produtos para Doação
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
+        .then(function (response) {
+          $('#tabela-produtos').DataTable({
+            data: response.data,
+            responsive: true,
+            columns: [
+              { data: 'nome' },
+              { data: 'descricao', defaultContent: 'Sem descrição' },
+              { data: 'quantidade' },
+              {
+                data: null,
+                render: function () {
+                  return '<button class="btn btn-success btn-sm">Solicitar</button>';
+                }
+              }
+            ],
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+            }
+          });
+        })
+        .catch(function (error) {
+          console.error('Erro ao carregar produtos:', error);
+          alert('Erro ao carregar os produtos.');
+        });
+    });
 
   </script>
 </body>
