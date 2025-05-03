@@ -71,57 +71,56 @@
               </a>
             </div>
   </header>
-  <!-- contact section -->
-  <section class="contact_section layout_padding-bottom">
-    <div class="container d-flex justify-content-center">
-      <!-- Box centralizada -->
-      <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
-        <!-- Logo e Título centralizados -->
-        <div class="text-center mb-4">
-          <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
-          <h3>Cadastro de ponto de coleta</h3>
-          <p>Preencha as informações e cadastre seu ponto de coleta</p>
-        </div>
-
-        <!-- Formulário -->
-        <div class="form-cadastro">
+  <section class="book_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col">
           <form id="form-cadastro" onsubmit="realizarCadastro(event)">
-            <div>
-              <label for="">Nome do ponto de coleta:</label>
-              <input required id="nome" type="text" placeholder="Nome do ponto de coleta"
-                style="border-radius: 10px;" />
+            <h4>
+              CADASTRO <span>PONTO DE COLETA</span>
+            </h4>
+  
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="nome">Nome do ponto de coleta:</label>
+                <input required id="nome" type="text" class="form-control" placeholder="Nome do ponto de coleta">
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="telefone">Telefone:</label>
+                <input required type="text" id="telefone" class="form-control" placeholder="Telefone para contato">
+              </div>
             </div>
-            <div>
-              <label>Telefone:</label>
-              <input required type="text" id="telefone" placeholder="Telefone para contato"
-                style="border-radius: 10px;" />
+  
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="responsavel">Responsável:</label>
+                <input type="text" id="responsavel" class="form-control" placeholder="Responsável">
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="endereco">Endereço:</label>
+                <input required id="endereco" type="text" class="form-control" placeholder="Endereço">
+              </div>
             </div>
-            <div style="margin-top: 10px;">
-              <label for="">Responsável:</label>
-              <input type="text" id="responsavel" placeholder="Responsável" style="border-radius: 10px;" />
+  
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="latitude">Latitude:</label>
+                <input required id="latitude" type="text" class="form-control" placeholder="Latitude">
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="longitude">Longitude:</label>
+                <input required id="longitude" type="text" class="form-control" placeholder="Longitude">
+              </div>
             </div>
-            <div>
-              <label for="">Endereço:</label>
-              <input required id="endereco" type="text" placeholder="Endereço" style="border-radius: 10px;" />
-            </div>
-            <div>
-              <label for="">Latitude:</label>
-              <input required id="latitude" type="text" placeholder="Latitude" style="border-radius: 10px;" />
-            </div>
-            <div>
-              <label for="">Longitude:</label>
-              <input required id="Longitude" type="text" placeholder="Longetude" style="border-radius: 10px;" />
-            </div>
-            <div class="btn_cadastro">
-              <button type="submit" class="btn btn-primary">Cadastrar ponto de coleta</button>
+  
+            <div class="btn-box">
+              <button type="submit" class="btn">Cadastrar ponto de coleta</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- end contact section -->
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -164,7 +163,7 @@
       const responsavel = JSON.parse(usuarioLogado).nome;
       const endereco = document.getElementById('endereco').value.trim();
       const latitude = document.getElementById('latitude').value.trim();
-      const longitude = document.getElementById('Longitude').value.trim();
+      const longitude = document.getElementById('longitude').value.trim();
 
       const dadosCadastro = {
         nome,
