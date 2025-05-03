@@ -42,7 +42,7 @@ if ($metodo === 'GET') {
         http_response_code(500);
         echo json_encode(["mensagem" => "Erro ao buscar usuários: " . $e->getMessage()]);
     }
-}elseif ($metodo === 'POST') {
+} elseif ($metodo === 'POST') {
     include 'conexao.php';
     $dados = json_decode(file_get_contents("php://input"), true);
 
@@ -82,7 +82,7 @@ if ($metodo === 'GET') {
             echo json_encode(["success" => false, "mensagem" => "Erro ao atualizar: " . $e->getMessage()]);
         }
 
-    // CADASTRO de novo usuário
+        // CADASTRO de novo usuário
     } elseif (
         isset($dados['nome']) && isset($dados['tipoPessoa']) &&
         isset($dados['email']) && isset($dados['senha'])
