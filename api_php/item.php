@@ -104,6 +104,23 @@ if ($metodo === 'GET') {
         echo json_encode(["erro" => "Campos obrigatórios: nome, id_ponto, id_user"]);
     }
 
+} elseif ($metodo === 'PATCH') {
+    // Atualiza apenas o status
+    if (isset($_GET['id']) && isset($_GET['status'])) {
+        try {
+            $stmt = $pdo->prepare("UPDATE itens SET status = :status WHERE id = :id");
+            $stmt->bindParam(':status', $_GET['status'], PDO::PARAM_INT);
+            $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+            $stmt->execute();
+            echo json_encode(["mensagem" => "Status atualizado com sucesso."]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(["erro" => "Erro ao atualizar status: " . $e->getMessage()]);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(["erro" => "Parâmetros de status ou id ausentes."]);
+    }
 } elseif ($metodo === 'PUT') {
     $dados = json_decode(file_get_contents("php://input"), true);
 

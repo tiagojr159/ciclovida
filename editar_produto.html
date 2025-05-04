@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Edição de Produto</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body class="sub_page">
+  <header class="header_section">
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mr-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html"> Início<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html"> Sobre</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Catálogo</a>
+                </li>
+              </ul>
+            </div>
+            <div class="quote_btn-container">
+
+              <div id="labelUsuario"></div>
+              <a href="login.html">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>
+                  Entrar
+                </span>
+              </a>
+            </div>
+  </header>
+  <!-- contact section -->
+  <section class="contact_section layout_padding-bottom">
+    <div class="container d-flex justify-content-center">
+      <!-- Box centralizada -->
+      <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%; margin-top: 30px; border-radius: 20px;">
+        <!-- Logo e título centralizados -->
+        <div class="text-center mb-4">
+          <img src="images/logo2.svg" alt="Logo da Marca" style="height: 80px; margin-bottom: 10px;">
+          <h3>Edição de Produto</h3>
+          <p>Altere as informações e salve as mudanças</p>
+        </div>
+
+        <!-- Formulário ARRUMAR O ALINHAMENTO DO CAMPO QUANTIDADE -->
+        <div class="form-cadastro">
+          <form id="form-cadastro" onsubmit="editarProduto(event)">
+
+            <div>
+              <label for="nome">Nome do produto:</label>
+              <input required id="nome" type="text" placeholder="Nome do ponto de coleta"
+                style="border-radius: 10px;" />
+            </div>
+
+            <div>
+              <label for="quantidade">Quantidade:</label>
+              <input required type="number" id="quantidade" style="border-radius: 10px; width: 100px;" />
+            </div>
+
+            <div style="margin-top: 10px;">
+              <label for="responsavel">Responsável:</label>
+              <div id="responsavel" style="border-radius: 10px; width: 100px;"></div>
+            </div>
+            <br>
+
+            <div style="margin-top: 10px;">
+              <label for="ponto_coleta">Selecionar Ponto de Coleta:</label><br>
+              <select id="ponto_coleta" required class="form-control" style="border-radius: 10px; width: 100%;">
+                <option value="">Selecione um ponto</option>
+                <option value="0">Nenhum ponto de coleta</option>
+              </select>
+            </div>
+        </div>
+        <div style="margin-top: 10px;">
+          <label for="descricao">Descrição:</label>
+          <textarea required id="descricao" placeholder="Escreva uma descrição sobre o produto" rows="4"
+            cols="81"></textarea>
+        </div>
+        <div class="btn_cadastro">
+          <button type="submit" class="btn btn-info">Salvar</button>
+        </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+      </p>
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- datepicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+  <!-- custom js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const idProduto = localStorage.getItem('id_produto_edicao');
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      const responsavel = document.getElementById('responsavel');
+      responsavel.innerHTML = usuarioLogado.nome;
+
+      // Carrega os pontos
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
+        .then(function (response) {
+          const select = document.getElementById('ponto_coleta');
+          select.innerHTML = '<option value="">Selecione um ponto</option><option value="0">Nenhum ponto</option>';
+          response.data.forEach(ponto => {
+            const option = document.createElement('option');
+            option.value = ponto.id;
+            option.textContent = ponto.nome_ponto + ' - ' + (ponto.endereco || '');
+            select.appendChild(option);
+          });
+          $('select').niceSelect('update');
+        });
+
+      // Carrega o produto
+      axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${idProduto}`)
+        .then(function (response) {
+          const produto = response.data;
+          document.getElementById('nome').value = produto.nome;
+          document.getElementById('quantidade').value = produto.quantidade;
+          document.getElementById('descricao').value = produto.descricao;
+          document.getElementById('ponto_coleta').value = produto.id_ponto;
+          $('select').niceSelect('update');
+        });
+    });
+
+    function editarProduto(event) {
+      event.preventDefault();
+
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      const id_user = usuarioLogado.id;
+      const id_original = localStorage.getItem('id_produto_edicao');
+
+      const nome = document.getElementById('nome').value.trim();
+      const quantidade = document.getElementById('quantidade').value.trim();
+      const descricao = document.getElementById('descricao').value.trim();
+      const id_ponto = document.getElementById('ponto_coleta').value;
+
+      const dadosAtualizados = {
+        nome,
+        quantidade: parseInt(quantidade),
+        descricao,
+        id_user: parseInt(id_user),
+        id_ponto: parseInt(id_ponto),
+        valor: 0.00,
+        id_original: parseInt(id_original)
+      };
+
+      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', dadosAtualizados)
+        .then(function () {
+          alert('Produto atualizado com sucesso!');
+          localStorage.removeItem('id_produto_edicao');
+          window.location.href = 'home_user.html';
+        })
+        .catch(function (error) {
+          console.error('Erro ao atualizar produto:', error);
+          alert('Erro ao atualizar. Tente novamente.');
+        });
+    }
+
+  </script>
+
+
+</body>
+
+</html>

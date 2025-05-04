@@ -284,7 +284,7 @@
 
 
 
-      axios.get('http://localhost/ciclovida/api_php/usuarios.php', {
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
         params: { id_user }
       })
         .then(response => {
@@ -317,7 +317,7 @@
 
 
       // Carregar Pontos de Coleta
-      axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php', {
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php', {
         params: { id_user }
       }).then(function (response) {
         if ($.fn.DataTable.isDataTable('#tabela-coleta')) {
@@ -342,7 +342,7 @@
       });
 
       // Carregar Produtos para Doação
-      axios.get('http://localhost/ciclovida/api_php/item.php', {
+      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', {
         params: { id_user }
       }).then(function (response) {
         if ($.fn.DataTable.isDataTable('#tabela-produtos')) {
@@ -356,11 +356,18 @@
             { data: 'descricao', defaultContent: 'Sem descrição' },
             { data: 'quantidade' },
             {
-              data: null,
-              render: function () {
-                return '<button class="btn btn-success btn-sm">Solicitar</button>';
-              }
-            }
+  data: null,
+  render: function (data, type, row) {
+    let cor = row.status == 1 ? 'success' : 'warning';
+    let texto = row.status == 1 ? 'Disponível' : 'Indisponível';
+
+    return `
+      <button class="btn btn-${cor} btn-sm mr-2" onclick="alternarStatus(${row.id}, ${row.status})">${texto}</button>
+      <button class="btn btn-info btn-sm mr-2" onclick="editarProduto(${row.id})">Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="apagarProduto(${row.id})">Apagar</button>
+    `;
+  }
+}
           ],
           language: {
             url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
@@ -378,6 +385,42 @@
       window.location.href = 'login.html';
     }
 
+    function apagarProduto(id) {
+  if (confirm('Tem certeza que deseja apagar este produto? Essa ação não poderá ser desfeita.')) {
+    axios.delete(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}`)
+      .then(response => {
+        alert(response.data.mensagem || 'Produto apagado com sucesso!');
+        location.reload();
+      })
+      .catch(error => {
+        console.error('Erro ao apagar produto:', error);
+        alert('Erro ao tentar apagar o produto. Tente novamente.');
+      });
+  }
+}
+
+function alternarStatus(id, statusAtual) {
+  const novoStatus = statusAtual === 1 ? 0 : 1;
+  const confirmacao = confirm("Deseja alterar o status para " + (novoStatus === 1 ? 'Disponível' : 'Indisponível') + "?");
+
+  if (!confirmacao) return;
+
+  axios.patch(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}&status=${novoStatus}`)
+    .then(response => {
+      alert(response.data.mensagem || 'Status alterado com sucesso!');
+      location.reload();
+    })
+    .catch(error => {
+      console.error('Erro ao alterar status:', error);
+      alert('Erro ao atualizar o status do produto.');
+    });
+}
+
+function editarProduto(id) {
+  // Salva o ID no localStorage para a tela de edição usar
+  localStorage.setItem('id_produto_edicao', id);
+  window.location.href = 'editar_produto.html';
+}
   </script>
 </body>
 
