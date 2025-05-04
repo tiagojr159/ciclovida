@@ -79,7 +79,7 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Erro ao atualizar ponto: " . $e->getMessage()]);
         }
 
-    // Cadastro com id_user
+        // Cadastro com id_user
     } elseif (isset($dados['nome'], $dados['telefone'], $dados['endereco'], $dados['id_user'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO ponto_coleta 

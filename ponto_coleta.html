@@ -113,7 +113,7 @@
   <footer class="footer_section">
     <div class="container">
       <p>
-        &copy; <span id="displayYear"></span> Todos os direitos reservados por
+        © <span id="displayYear"></span> Todos os direitos reservados por
         <a href="https://html.design/">Free Html Templates</a>
       </p>
     </div>
@@ -138,24 +138,38 @@
     axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
       .then(function (response) {
         const pontos = response.data;
+        console.log(response.data);
 
         pontos.forEach(ponto => {
-          if (ponto.latitude && ponto.longitude) {
-            const descricao = `
-              <div class="popup-title">${ponto.nome_ponto}</div>
-              <p><strong>Responsável:</strong> ${ponto.responsavel}</p>
-              <p><strong>Telefone:</strong> ${ponto.telefone}</p>
-              <p><strong>Endereço:</strong> ${ponto.endereco}</p>
-            `;
+          // Use 'lat' and 'log' instead of 'latitude' and 'longitude'
+          if (ponto.lat && ponto.log) {
+            const latitude = parseFloat(ponto.lat);
+            const longitude = parseFloat(ponto.log);
 
-            L.marker([parseFloat(ponto.latitude), parseFloat(ponto.longitude)])
-              .addTo(map)
-              .bindPopup(descricao);
+            // Validate that the coordinates are numbers and within valid ranges
+            if (!isNaN(latitude) && !isNaN(longitude) && 
+                latitude >= -90 && latitude <= 90 && 
+                longitude >= -180 && longitude <= 180) {
+              const descricao = `
+                <div class="popup-title">${ponto.nome_ponto}</div>
+                <p><strong>Responsável:</strong> ${ponto.responsavel || 'Não informado'}</p>
+                <p><strong>Telefone:</strong> ${ponto.telefone || 'Não informado'}</p>
+                <p><strong>Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
+              `;
+
+              L.marker([latitude, longitude])
+                .addTo(map)
+                .bindPopup(descricao);
+            } else {
+              console.warn(`Coordenadas inválidas para o ponto ${ponto.nome_ponto}: lat=${ponto.lat}, log=${ponto.log}`);
+            }
+          } else {
+            console.warn(`Coordenadas ausentes para o ponto ${ponto.nome_ponto}`);
           }
         });
 
         // Adiciona ponto de exemplo fixo
-        const descricaoExemplo = `
+    /*    const descricaoExemplo = `
           <div class="popup-title">Ponto de Coleta - ONG Vida Solidária</div>
           <p><strong>Responsável:</strong> Ana Souza</p>
           <p><strong>Telefone:</strong> (81) 91234-5678</p>
@@ -163,7 +177,7 @@
         `;
         L.marker([-8.0500, -34.8800])
           .addTo(map)
-          .bindPopup(descricaoExemplo);
+          .bindPopup(descricaoExemplo);*/
       })
       .catch(function (error) {
         console.error('Erro ao carregar pontos de coleta:', error);
