@@ -413,9 +413,8 @@
 
       if (!confirmacao) return;
 
-      axios.patch(`http://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}&status=${novoStatus}`)
+      axios.patch(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}&status=${novoStatus}`)
         .then(response => {
-
           alert(response.data.mensagem || 'Status alterado com sucesso!');
           location.reload();
         })
