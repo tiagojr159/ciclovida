@@ -26,6 +26,12 @@ if ($metodo === 'GET') {
             $stmt->execute();
             $ponto = $stmt->fetch(PDO::FETCH_ASSOC);
             echo json_encode($ponto ?: []);
+        } elseif (isset($_GET['id_user'])) {
+            $stmt = $pdo->prepare("SELECT * FROM ponto_coleta WHERE id_user = :id_user");
+            $stmt->bindParam(':id_user', $_GET['id_user'], PDO::PARAM_INT);
+            $stmt->execute();
+            $pontos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($pontos);
         } else {
             $stmt = $pdo->query("SELECT * FROM ponto_coleta");
             $pontos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +42,7 @@ if ($metodo === 'GET') {
         echo json_encode(["erro" => "Erro ao buscar dados: " . $e->getMessage()]);
     }
 
-}  elseif ($metodo === 'POST') {
+} elseif ($metodo === 'POST') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
     if (!$dados) {
@@ -45,7 +51,7 @@ if ($metodo === 'GET') {
         exit;
     }
 
-    // Atualização se vier com 'id_original'
+    // Atualização
     if (isset($dados['id_original'])) {
         try {
             $stmt = $pdo->prepare("UPDATE ponto_coleta SET 
@@ -73,12 +79,12 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Erro ao atualizar ponto: " . $e->getMessage()]);
         }
 
-    // Cadastro se não houver id_original
-    } elseif (isset($dados['nome'], $dados['telefone'], $dados['endereco'])) {
+        // Cadastro com id_user
+    } elseif (isset($dados['nome'], $dados['telefone'], $dados['endereco'], $dados['id_user'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO ponto_coleta 
-                (nome_ponto, telefone, responsavel, endereco, lat, log) 
-                VALUES (:nome, :telefone, :responsavel, :endereco, :latitude, :longitude)");
+                (nome_ponto, telefone, responsavel, endereco, lat, log, id_user) 
+                VALUES (:nome, :telefone, :responsavel, :endereco, :latitude, :longitude, :id_user)");
 
             $stmt->execute([
                 ':nome' => $dados['nome'],
@@ -86,7 +92,8 @@ if ($metodo === 'GET') {
                 ':responsavel' => $dados['responsavel'],
                 ':endereco' => $dados['endereco'],
                 ':latitude' => $dados['latitude'],
-                ':longitude' => $dados['longitude']
+                ':longitude' => $dados['longitude'],
+                ':id_user' => $dados['id_user']
             ]);
 
             echo json_encode(["mensagem" => "Ponto de coleta cadastrado com sucesso!"]);
@@ -98,6 +105,7 @@ if ($metodo === 'GET') {
         http_response_code(400);
         echo json_encode(["erro" => "Campos obrigatórios ausentes."]);
     }
+
 } elseif ($metodo === 'PUT') {
     $dados = json_decode(file_get_contents("php://input"), true);
 

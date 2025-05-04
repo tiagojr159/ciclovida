@@ -24,12 +24,12 @@ if ($metodo === 'GET') {
     include 'conexao.php';
 
     try {
-        if (isset($_GET['documento'])) {
-            $documento = $_GET['documento'];
-            $dados = json_decode($_GET['documento'], true);
-            $documento = $dados['documento'] ?? '';
-            $stmt = $pdo->prepare("SELECT * FROM usuario WHERE documento = :documento");
-            $stmt->bindParam(':documento', $documento);
+        if (isset($_GET['id_user'])) {
+            $id_user = $_GET['id_user'];
+            $dados = json_decode($_GET['id_user'], true);
+            $id_user = $dados['id_user'] ?? '';
+            $stmt = $pdo->prepare("SELECT * FROM usuario WHERE id = :id_user");
+            $stmt->bindParam(':id_user', $id_user);
             $stmt->execute();
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
             echo json_encode(["success" => true, "usuario" => $usuario]);

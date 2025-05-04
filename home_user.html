@@ -64,7 +64,8 @@
           </a>
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -86,7 +87,7 @@
             </div>
             <div class="quote_btn-container">
               <div id="labelUsuario"></div>
-         
+
               <a href="cadastro.html">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>
@@ -109,11 +110,11 @@
   <section class="contact_section layout_padding-bottom">
     <div class="container d-flex justify-content-center">
       <div class="card shadow-lg p-5 card-custom text-center">
-        <div class="perfil-foto d-flex align-items-center justify-content-center mx-auto" 
-        style="width: 150px; height: 150px; border-radius: 50%; background-color: #f0f0f0; font-size: 80px;">
-     &#128100;
-   </div>
-   
+        <div class="perfil-foto d-flex align-items-center justify-content-center mx-auto"
+          style="width: 150px; height: 150px; border-radius: 50%; background-color: #f0f0f0; font-size: 80px;">
+          &#128100;
+        </div>
+
         <h3 class="mb-4" id="nomeUsuario">Nome do Usuário</h3>
 
         <div class="row text-left">
@@ -142,8 +143,8 @@
             <p class="info-text" id="cepUsuario">00000-000</p>
           </div>
         </div>
-       
-        
+
+
         <a href="editar_user.html" class="btn-editar">Editar Perfil</a>
       </div>
     </div>
@@ -152,53 +153,53 @@
 
 
 
- <!-- Conteúdo -->
- <section class="layout_padding-bottom">
-  <div class="container">
-    <!-- Tabela de Pontos de Coleta -->
-    <div class="card shadow-lg p-4 mb-5" style="border-radius: 20px;">
-      <div class="text-center mb-4">
-        <h3>Pontos de Coleta</h3>
-        <p>Veja os pontos de coleta registrados pelo sistema</p>
+  <!-- Conteúdo -->
+  <section class="layout_padding-bottom">
+    <div class="container">
+      <!-- Tabela de Pontos de Coleta -->
+      <div class="card shadow-lg p-4 mb-5" style="border-radius: 20px;">
+        <div class="text-center mb-4">
+          <h3>Pontos de Coleta</h3>
+          <p>Veja os pontos de coleta registrados pelo sistema</p>
+        </div>
+        <div class="table-responsive">
+          <table id="tabela-coleta" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
+            <thead class="thead-dark">
+              <tr>
+                <th>Nome</th>
+                <th>Responsável</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
-      <div class="table-responsive">
-        <table id="tabela-coleta" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
-          <thead class="thead-dark">
-            <tr>
-              <th>Nome</th>
-              <th>Responsável</th>
-              <th>Telefone</th>
-              <th>Endereço</th>
-             
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+
+      <!-- Tabela de Produtos para Doação -->
+      <div class="card shadow-lg p-4" style="border-radius: 20px;">
+        <div class="text-center mb-4">
+          <h3>Produtos para Doação</h3>
+          <p>Veja os produtos disponíveis para doação</p>
+        </div>
+        <div class="table-responsive">
+          <table id="tabela-produtos" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
+            <thead class="thead-dark">
+              <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-    <!-- Tabela de Produtos para Doação -->
-    <div class="card shadow-lg p-4" style="border-radius: 20px;">
-      <div class="text-center mb-4">
-        <h3>Produtos para Doação</h3>
-        <p>Veja os produtos disponíveis para doação</p>
-      </div>
-      <div class="table-responsive">
-        <table id="tabela-produtos" class="table table-bordered table-striped dt-responsive nowrap" width="100%">
-          <thead class="thead-dark">
-            <tr>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Quantidade</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
 
 
@@ -213,7 +214,7 @@
 
 
 
-  
+
   <!-- Footer -->
   <footer class="footer_section">
     <div class="container">
@@ -233,17 +234,58 @@
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
 
 
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const documento = localStorage.getItem('usuarioLogado');
-      if (!documento) {
+      const labelUsuario = document.getElementById('labelUsuario');
+      let usuarioLogado = localStorage.getItem('usuarioLogado');
+
+      if (!usuarioLogado) {
         alert('Usuário não está logado. Faça login para visualizar o perfil.');
         window.location.href = 'login.html';
         return;
       }
 
+
+
+
+
+
+
+
+      try {
+        usuarioLogado = JSON.parse(usuarioLogado);
+      } catch (e) {
+        console.error('Erro ao analisar usuário logado:', e);
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const id_user = usuarioLogado.id_user;
+      const documento = usuarioLogado.documento;
+      console.log(usuarioLogado);
+
+
+      // Exibir nome do usuário e botão de logout
+      labelUsuario.innerHTML = `
+      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
+        ${usuarioLogado.nome}
+      </span>
+      <span onclick="logout()" style="cursor:pointer; color: #fde01b; font-weight: bold;">
+        Logout
+      </span>
+    `;
+
+
+
+
+
+
+
+
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
-        params: { documento }
+        params: { id_user }
       })
         .then(response => {
           const usuario = response.data.usuario;
@@ -269,92 +311,72 @@
           alert('Erro ao carregar perfil. Tente novamente.');
         });
 
-      // Atualiza o ano automaticamente
-      document.getElementById('displayYear').textContent = new Date().getFullYear();
-    });
 
 
-    var usuarioLogado = localStorage.getItem('usuarioLogado');
-    var labelUsuario = document.getElementById('labelUsuario');
 
-    var usuLog = 0;
-    try {
-      console.log(JSON.parse(usuarioLogado));
-      usuarioLogado = JSON.parse(usuarioLogado);
-      var usuLog = 1;
-    } catch (error) {
-      console.log('Usuário não logado');
-      usuarioLogado = null;
-    }
-    if (usuLog == 1) {
-      labelUsuario.innerHTML = `
-      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
-        ${usuarioLogado.nome}
-      </span>
 
-      <span onclick="logout()" style="color: #fde01b; font-weight: bold; margin-right: 10px;">
-        Logout
-      </span>
-    `;
-    } else {
-      labelUsuario.innerHTML = `
-      <a href="login.html">
-        <i class="fa fa-user" aria-hidden="true"></i>
-        <span style="color: #fde01b;">Entrar</span>
-      </a>
-     `;
-    }
 
-    $(document).ready(function () {
       // Carregar Pontos de Coleta
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
-        .then(function (response) {
-          $('#tabela-coleta').DataTable({
-            data: response.data,
-            responsive: true,
-            columns: [
-              { data: 'nome_ponto' },
-              { data: 'responsavel' },
-              { data: 'telefone' },
-              { data: 'endereco' }
-            ],
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
-            }
-          });
-        })
-        .catch(function (error) {
-          console.error('Erro ao carregar pontos de coleta:', error);
-          alert('Erro ao carregar os pontos de coleta.');
+      axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php', {
+        params: { id_user }
+      }).then(function (response) {
+        if ($.fn.DataTable.isDataTable('#tabela-coleta')) {
+          $('#tabela-coleta').DataTable().clear().destroy();
+        }
+        $('#tabela-coleta').DataTable({
+          data: response.data,
+          responsive: true,
+          columns: [
+            { data: 'nome_ponto' },
+            { data: 'responsavel' },
+            { data: 'telefone' },
+            { data: 'endereco' }
+          ],
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+          }
         });
+      }).catch(function (error) {
+        console.error('Erro ao carregar pontos de coleta:', error);
+        alert('Erro ao carregar os pontos de coleta.');
+      });
 
       // Carregar Produtos para Doação
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
-        .then(function (response) {
-          $('#tabela-produtos').DataTable({
-            data: response.data,
-            responsive: true,
-            columns: [
-              { data: 'nome' },
-              { data: 'descricao', defaultContent: 'Sem descrição' },
-              { data: 'quantidade' },
-              {
-                data: null,
-                render: function () {
-                  return '<button class="btn btn-success btn-sm">Solicitar</button>';
-                }
+      axios.get('http://localhost/ciclovida/api_php/item.php', {
+        params: { id_user }
+      }).then(function (response) {
+        if ($.fn.DataTable.isDataTable('#tabela-produtos')) {
+          $('#tabela-produtos').DataTable().clear().destroy();
+        }
+        $('#tabela-produtos').DataTable({
+          data: response.data,
+          responsive: true,
+          columns: [
+            { data: 'nome' },
+            { data: 'descricao', defaultContent: 'Sem descrição' },
+            { data: 'quantidade' },
+            {
+              data: null,
+              render: function () {
+                return '<button class="btn btn-success btn-sm">Solicitar</button>';
               }
-            ],
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
             }
-          });
-        })
-        .catch(function (error) {
-          console.error('Erro ao carregar produtos:', error);
-          alert('Erro ao carregar os produtos.');
+          ],
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+          }
         });
+      }).catch(function (error) {
+        console.error('Erro ao carregar produtos:', error);
+        alert('Erro ao carregar os produtos.');
+      });
     });
+
+    // Função de logout (se ainda não tiver)
+    function logout() {
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = 'login.html';
+    }
 
   </script>
 </body>

@@ -108,6 +108,7 @@
               <label for="ponto_coleta">Selecionar Ponto de Coleta:</label><br>
               <select id="ponto_coleta" required class="form-control" style="border-radius: 10px; width: 100%;">
                 <option value="">Selecione um ponto</option>
+                <option value="0">Nenhum ponto de coleta</option>
               </select>
             </div>
         </div>
@@ -161,7 +162,7 @@
       const responsavel = document.getElementById('responsavel');
       responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
 
-      
+
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
         .then(function (response) {
           const select = document.getElementById('ponto_coleta');
@@ -171,6 +172,12 @@
           defaultOption.value = '';
           defaultOption.textContent = 'Selecione um ponto';
           select.appendChild(defaultOption);
+
+          const defaultOption2 = document.createElement('option');
+          defaultOption2.value = '0';
+          defaultOption2.textContent = 'Nenhum ponto';
+          select.appendChild(defaultOption2);
+
 
           response.data.forEach(ponto => {
             const option = document.createElement('option');
@@ -193,44 +200,44 @@
 
 
     function realizarCadastro(event) {
-  event.preventDefault();
+      event.preventDefault();
 
-  const usuarioLogado = localStorage.getItem('usuarioLogado');
-  const responsavel = document.getElementById('responsavel');
-  responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
-console.log(usuarioLogado);
-  const nome = document.getElementById('nome').value.trim();
-  const quantidade = document.getElementById('quantidade').value.trim();
-  const descricao = document.getElementById('descricao').value.trim();
-  const id_ponto = document.getElementById('ponto_coleta').value;
-  const id_user = JSON.parse(usuarioLogado).id; // <- aqui sim
+      const usuarioLogado = localStorage.getItem('usuarioLogado');
+      const responsavel = document.getElementById('responsavel');
+      responsavel.innerHTML = JSON.parse(usuarioLogado).nome;
+      console.log(usuarioLogado);
+      const nome = document.getElementById('nome').value.trim();
+      const quantidade = document.getElementById('quantidade').value.trim();
+      const descricao = document.getElementById('descricao').value.trim();
+      const id_ponto = document.getElementById('ponto_coleta').value;
+      const id_user = JSON.parse(usuarioLogado).id; // <- aqui sim
 
-  if (!id_user || !id_ponto) {
-    alert("Usuário ou ponto de coleta não está definido.");
-    return;
-  }
+      if (!id_user || !id_ponto) {
+        alert("Usuário ou ponto de coleta não está definido.");
+        return;
+      }
 
-  const dadosCadastro = {
-    nome,
-    quantidade: parseInt(quantidade),
-    descricao,
-    id_user: parseInt(id_user),
-    id_ponto: parseInt(id_ponto),
-    valor: 0.00
-  };
+      const dadosCadastro = {
+        nome,
+        quantidade: parseInt(quantidade),
+        descricao,
+        id_user: parseInt(id_user),
+        id_ponto: parseInt(id_ponto),
+        valor: 0.00
+      };
 
-  axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', dadosCadastro)
-    .then(function () {
-      alert('Produto cadastrado com sucesso!');
-      window.location.href = 'lista_produtos.html';
-      document.getElementById('form-cadastro').reset();
-    })
-    .catch(function (error) {
-      console.error('Erro ao realizar cadastro:', error);
-      alert('Erro ao realizar cadastro. Tente novamente.');
-    });
+      axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', dadosCadastro)
+        .then(function () {
+          alert('Produto cadastrado com sucesso!');
+          window.location.href = 'lista_produtos.html';
+          document.getElementById('form-cadastro').reset();
+        })
+        .catch(function (error) {
+          console.error('Erro ao realizar cadastro:', error);
+          alert('Erro ao realizar cadastro. Tente novamente.');
+        });
 
-}
+    }
 
   </script>
 

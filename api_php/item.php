@@ -25,6 +25,12 @@ if ($metodo === 'GET') {
             $stmt->execute();
             $item = $stmt->fetch(PDO::FETCH_ASSOC);
             echo json_encode($item ?: []);
+        } elseif (isset($_GET['id_user'])) {
+            $stmt = $pdo->prepare("SELECT * FROM itens WHERE id_user = :id_user");
+            $stmt->bindParam(':id_user', $_GET['id_user'], PDO::PARAM_INT);
+            $stmt->execute();
+            $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($itens);
         } else {
             $stmt = $pdo->query("SELECT * FROM itens");
             $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
