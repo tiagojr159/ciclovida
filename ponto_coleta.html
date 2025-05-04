@@ -49,11 +49,11 @@
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
             <a class="navbar-brand" href="index.html">
-              <img class=logo src="images/whitelogo.svg" alt="">
+              <img class="logo" src="images/whitelogo.svg" alt="">
             </a>
-            </a>
-  
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -80,16 +80,12 @@
                 <div id="labelUsuario"></div>
                 <a href="login.html">
                   <i class="fa fa-user" aria-hidden="true"></i>
-                  <span>
-                    Entrar
-                  </span>
+                  <span>Entrar</span>
                   <button onclick="logout()">Sair</button>
                 </a>
                 <a href="cadastro.html">
                   <i class="fa fa-user" aria-hidden="true"></i>
-                  <span>
-                    Cadastrar
-                  </span>
+                  <span>Cadastrar</span>
                 </a>
                 <form class="form-inline">
                   <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
@@ -111,16 +107,14 @@
   </div>
 
   <!-- footer section -->
- <!-- footer section -->
- <footer class="footer_section">
-  <div class="container">
-    <p>
-      &copy; <span id="displayYear"></span> All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </div>
-</footer>
-<!-- footer
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+      </p>
+    </div>
+  </footer>
 
   <!-- Scripts -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -128,90 +122,42 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- ADICIONADO -->
 
   <script>
     const map = L.map('map').setView([-8.0476, -34.8770], 13);
-
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap',
       maxZoom: 18,
     }).addTo(map);
-
-    const pontosColeta = [
-      {
-        nome: "Ponto Verde Boa Vista",
-        endereco: "Rua da Aurora, 295 - Boa Vista, Recife - PE",
-        descricao: `
-          <div class="popup-title">Ponto Verde Boa Vista</div>
-          <p><strong>Endereço:</strong> Rua da Aurora, 295</p>
-          <p><strong>Funcionamento:</strong> Seg-Sex, 8h às 17h</p>
-          <p><strong>Materiais:</strong> Plástico, papel, metal e vidro</p>
-        `,
-        coords: [-8.058493, -34.881819]
-      },
-      {
-        nome: "Eco Ponto Casa Amarela",
-        endereco: "Av. Norte Miguel Arraes de Alencar, 1230 - Casa Amarela, Recife - PE",
-        descricao: `
-          <div class="popup-title">Eco Ponto Casa Amarela</div>
-          <p><strong>Endereço:</strong> Av. Norte, 1230</p>
-          <p><strong>Funcionamento:</strong> Seg-Sáb, 9h às 18h</p>
-          <p><strong>Materiais:</strong> Eletrônicos, papelão, óleo de cozinha</p>
-        `,
-        coords: [-8.015, -34.920]
-      },
-      {
-        nome: "Centro de Doação Sesc Santo Amaro",
-        endereco: "Rua Treze de Maio, 455 - Santo Amaro, Recife - PE",
-        descricao: `
-          <div class="popup-title">Centro de Doação Sesc Santo Amaro</div>
-          <p><strong>Endereço:</strong> Rua Treze de Maio, 455</p>
-          <p><strong>Funcionamento:</strong> Seg-Sex, 8h às 17h</p>
-          <p><strong>Doações:</strong> Alimentos não perecíveis</p>
-        `,
-        coords: [-8.0535, -34.8881]
-      },
-      {
-        nome: "Igreja da Boa Vista",
-        endereco: "Rua da Soledade, 251 - Boa Vista, Recife - PE",
-        descricao: `
-          <div class="popup-title">Igreja da Boa Vista</div>
-          <p><strong>Endereço:</strong> Rua da Soledade, 251</p>
-          <p><strong>Funcionamento:</strong> Ter-Dom, 9h às 16h</p>
-          <p><strong>Doações:</strong> Cestas básicas, arroz, feijão, macarrão</p>
-        `,
-        coords: [-8.0608, -34.8842]
-      },
-      {
-        nome: "Centro Comunitário Alto José do Pinho",
-        endereco: "Rua Pedro de Souza, 78 - Alto José do Pinho, Recife - PE",
-        descricao: `
-          <div class="popup-title">Centro Comunitário Alto José do Pinho</div>
-          <p><strong>Endereço:</strong> Rua Pedro de Souza, 78</p>
-          <p><strong>Funcionamento:</strong> Seg-Sáb, 10h às 17h</p>
-          <p><strong>Doações:</strong> Alimentos não perecíveis, leite em pó</p>
-        `,
-        coords: [-8.0129, -34.9322]
-      },
-      {
-        nome: "CRAS Ibura",
-        endereco: "Av. Dois Rios, 405 - Ibura, Recife - PE",
-        descricao: `
-          <div class="popup-title">CRAS Ibura</div>
-          <p><strong>Endereço:</strong> Av. Dois Rios, 405</p>
-          <p><strong>Funcionamento:</strong> Seg-Sex, 8h às 17h</p>
-          <p><strong>Doações:</strong> Alimentos básicos e higiene</p>
-        `,
-        coords: [-8.1203, -34.9546]
-      },      
-    ];
-
-    pontosColeta.forEach(ponto => {
-      L.marker(ponto.coords).addTo(map)
-        .bindPopup(ponto.descricao);
-    });
-
-    // Atualiza o ano automaticamente no footer
+  
+    // Consumindo API e adicionando marcadores
+    axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
+      .then(function (response) {
+        const pontos = response.data;
+  
+        pontos.forEach(ponto => {
+          if (ponto.latitude && ponto.longitude) {
+            const descricao = `
+              <div class="popup-title">${ponto.nome_ponto}</div>
+              <p><strong>Responsável:</strong> ${ponto.responsavel}</p>
+              <p><strong>Telefone:</strong> ${ponto.telefone}</p>
+              <p><strong>Endereço:</strong> ${ponto.endereco}</p>
+            `;
+  
+            L.marker([parseFloat(ponto.latitude), parseFloat(ponto.longitude)])
+              .addTo(map)
+              .bindPopup(descricao);
+          }
+        });
+      })
+      .catch(function (error) {
+        console.error('Erro ao carregar pontos de coleta:', error);
+        alert('Erro ao carregar os pontos de coleta.');
+      });
+  
+    // Atualiza o ano no rodapé
     document.getElementById("displayYear").textContent = new Date().getFullYear();
   </script>
 </body>
