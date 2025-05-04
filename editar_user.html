@@ -206,16 +206,16 @@
     });
 
     function carregarDadosUsuario() {
-      const documento = localStorage.getItem('usuarioLogado');
-      if (!documento) {
+      const id_user = localStorage.getItem('usuarioLogado');
+      if (!id_user) {
         alert('Usuário não está logado. Faça login para editar o perfil.');
         window.location.href = 'login.html';
         return;
       }
 
-      console.log('Documento do usuário:', documento);
+      console.log('id_user do usuário:', id_user);
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
-        params: { documento }
+        params: { id_user }
       })
         .then(response => {
           const dados = response.data;

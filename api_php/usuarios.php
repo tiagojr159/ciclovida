@@ -26,8 +26,6 @@ if ($metodo === 'GET') {
     try {
         if (isset($_GET['id_user'])) {
             $id_user = $_GET['id_user'];
-            $dados = json_decode($_GET['id_user'], true);
-            $id_user = $dados['id_user'] ?? '';
             $stmt = $pdo->prepare("SELECT * FROM usuario WHERE id = :id_user");
             $stmt->bindParam(':id_user', $id_user);
             $stmt->execute();
