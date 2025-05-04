@@ -36,7 +36,7 @@
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
-
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -49,7 +49,6 @@
           <nav class="navbar navbar-expand-lg custom_nav-container ">
             <a class="navbar-brand" href="index.html">
               <img class=logo src="images/whitelogo.svg" alt="">
-            </a>
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -201,13 +200,12 @@
         </div>
     
         <!-- Input do usuário -->
-        <div class="chat-input-group d-flex justify-content-center">
+        <form id="chat-form" class="chat-input-group d-flex justify-content-center">
           <input id="user-input" type="text" class="form-control w-75 rounded-start-pill" placeholder="Pergunte alguma coisa...">
-          <button id="send-btn" class="btn btn-primary rounded-end-pill">
+          <button id="send-btn" type="submit" class="btn btn-primary rounded-end-pill">
             <i class="fa fa-paper-plane"></i>
           </button>
-        </div>
-      </div>
+        </form>      
     </section>
 
   
@@ -257,7 +255,7 @@
   function appendMessage(sender, text) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('chat-message', sender);
-    msgDiv.innerHTML = `<div class="chat-bubble ${sender}">${text}</div>`;
+    msgDiv.innerHTML = <div class="chat-bubble ${sender}">${text}</div>;
     chatWindow.appendChild(msgDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
@@ -266,16 +264,25 @@
     appendMessage('user', text);
     input.value = '';
     
-    setTimeout(() => {
-      appendMessage('bot', 'Esta é uma resposta simulada. Integre com seu backend aqui.');
-    }, 800);
+    axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/chat.php', { message: text })
+  .then(response => {
+    console.log(response.data); 
+    appendMessage('bot', response.data.reply);
+  })
+  .catch(error => {
+    console.error('Erro na requisição:', error);
+    appendMessage('bot', 'Erro ao comunicar com o servidor.');
+  });
   }
 
-  sendBtn.addEventListener('click', () => {
-    if (input.value.trim() !== '') {
-      sendMessage(input.value.trim());
-    }
-  });
+  const chatForm = document.getElementById('chat-form');
+
+chatForm.addEventListener('submit', function(e) {
+  e.preventDefault(); 
+  if (input.value.trim() !== '') {
+    sendMessage(input.value.trim());
+  }
+});
 
   input.addEventListener('keypress', e => {
     if (e.key === 'Enter' && input.value.trim() !== '') {
