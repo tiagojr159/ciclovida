@@ -73,13 +73,13 @@ if ($metodo === 'GET') {
                 ':id_original' => $dados['id_original']
             ]);
 
-            echo json_encode(["mensagem" => "Ponto atualizado com sucesso!"]);
+            echo json_encode(["mensagem" => "Ponto de coleta atualizado com sucesso!"]);
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(["erro" => "Erro ao atualizar ponto: " . $e->getMessage()]);
         }
 
-        // Cadastro com id_user
+    // Cadastro com id_user
     } elseif (isset($dados['nome'], $dados['telefone'], $dados['endereco'], $dados['id_user'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO ponto_coleta 
@@ -111,7 +111,14 @@ if ($metodo === 'GET') {
 
     if ($dados && isset($_GET['id'])) {
         try {
-            $stmt = $pdo->prepare("UPDATE ponto_coleta SET nome_ponto = :nome_ponto, endereco = :endereco, descricao = :descricao, responsavel = :responsavel, contato = :contato WHERE id = :id");
+            $stmt = $pdo->prepare("UPDATE ponto_coleta SET 
+                nome_ponto = :nome_ponto, 
+                endereco = :endereco, 
+                descricao = :descricao, 
+                responsavel = :responsavel, 
+                contato = :contato 
+                WHERE id = :id");
+
             $stmt->execute([
                 ':nome_ponto' => $dados['nome_ponto'] ?? '',
                 ':endereco' => $dados['endereco'] ?? '',

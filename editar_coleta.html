@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Editar Ponto de Coleta</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body class="sub_page">
+
+  <header class="header_section">
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html"><img src="images/logo2.svg" alt="" height="50"></a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+              <li class="nav-item"><a class="nav-link" href="about.html">Sobre</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Catálogo</a></li>
+            </ul>
+            <div class="quote_btn-container">
+              <div id="labelUsuario"></div>
+              <a href="login.html"><i class="fa fa-user"></i><span>Entrar</span></a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section class="book_section layout_padding">
+    <div class="container">
+      <form id="form-edicao" onsubmit="atualizarPonto(event)">
+        <h4>EDITAR <span>PONTO DE COLETA</span></h4>
+
+        <div class="form-row">
+          <div class="form-group col-lg-6">
+            <label for="nome">Nome do ponto de coleta:</label>
+            <input required id="nome" type="text" class="form-control" placeholder="Nome do ponto de coleta">
+          </div>
+          <div class="form-group col-lg-6">
+            <label for="telefone">Telefone:</label>
+            <input required type="text" id="telefone" class="form-control" placeholder="Telefone para contato">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-lg-6">
+            <label for="responsavel">Responsável:</label>
+            <input required id="responsavel" type="text" class="form-control" placeholder="Responsável">
+          </div>
+          <div class="form-group col-lg-6">
+            <label for="endereco">Endereço:</label>
+            <input required id="endereco" type="text" class="form-control" placeholder="Endereço">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-lg-6">
+            <label for="latitude">Latitude:</label>
+            <input required id="latitude" type="text" class="form-control" placeholder="Latitude">
+          </div>
+          <div class="form-group col-lg-6">
+            <label for="longitude">Longitude:</label>
+            <input required id="longitude" type="text" class="form-control" placeholder="Longitude">
+          </div>
+        </div>
+
+        <div class="btn-box">
+          <button type="submit" class="btn btn-info">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer_section">
+    <div class="container">
+      <p>© <span id="displayYear"></span> Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script>
+    let usuarioLogado = localStorage.getItem('usuarioLogado');
+    let id = localStorage.getItem('id_coleta_edicao');
+
+    $(document).ready(function () {
+      $('#telefone').mask('(00) 00000-0000');
+
+      if (!id || !usuarioLogado) {
+        alert("ID de edição ou usuário não encontrado.");
+        window.location.href = "home_user.html";
+        return;
+      }
+
+      axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php?id=${id}`)
+        .then(response => {
+          const ponto = response.data;
+          $('#nome').val(ponto.nome_ponto);
+          $('#telefone').val(ponto.telefone);
+          $('#responsavel').val(ponto.responsavel);
+          $('#endereco').val(ponto.endereco);
+          $('#latitude').val(ponto.lat);
+          $('#longitude').val(ponto.log);
+        })
+        .catch(error => {
+          console.error('Erro ao buscar ponto:', error);
+          alert("Erro ao buscar dados do ponto.");
+          window.location.href = "home_user.html";
+        });
+    });
+
+    function atualizarPonto(event) {
+      event.preventDefault();
+
+      const dados = {
+        id_original: parseInt(id),
+        nome: $('#nome').val().trim(),
+        telefone: $('#telefone').val().trim(),
+        responsavel: $('#responsavel').val().trim(),
+        endereco: $('#endereco').val().trim(),
+        latitude: $('#latitude').val().trim(),
+        longitude: $('#longitude').val().trim()
+      };
+
+      axios.post("https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php", dados)
+        .then(() => {
+          alert("Ponto de coleta atualizado com sucesso!");
+          localStorage.removeItem('id_coleta_edicao');
+          window.location.href = "home_user.html";
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar:', error);
+          alert("Erro ao atualizar ponto de coleta.");
+        });
+    }
+  </script>
+</body>
+
+</html>
