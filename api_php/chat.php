@@ -38,7 +38,7 @@ if (empty($userMessage)) {
     exit;
 }
 
-$apiKey = '';
+//$apiKey = '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';
 
 $data = [
     "model" => "gpt-3.5-turbo",
