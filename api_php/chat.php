@@ -38,7 +38,7 @@ if (empty($userMessage)) {
     exit;
 }
 
-$apiKey = getenv('OPENAI_API_KEY'); // carrega a variável de ambiente
+$apiKey = '';
 
 $data = [
     "model" => "gpt-3.5-turbo",

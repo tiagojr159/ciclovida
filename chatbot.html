@@ -263,7 +263,7 @@
       if (!text.trim()) return;
 
       appendMessage('user', text);
-      userInput.value = '';
+      userInput.value = ''; 
 
       try {
         const response = await axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/chat.php', { message: text }, {
