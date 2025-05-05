@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Permitir requisições CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("Access-Control-Allow-Origin: *");
@@ -43,6 +43,7 @@ $apiKey = '';
 $data = [
     "model" => "gpt-3.5-turbo",
     "messages" => [
+        ["role" => "system", "content" => "Você é um assistente virtual que só pode falar sobre os temas: Integração logística para compartilhar alimentos, Doação segura, Destinação correta, Política pública, Engajamento comunitário de Recife. Evite qualquer outro assunto., escreva sempre textos muitos curtos e simples de entender"],
         ["role" => "user", "content" => $userMessage]
     ]
 ];
