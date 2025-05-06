@@ -22,7 +22,8 @@ if (!$dados || !isset($dados['documento']) || !isset($dados['senha'])) {
     exit;
 }
 
-$documento = $dados['documento'];
+// Remove pontos, traços e barras do documento
+$documento = preg_replace('/[\.\-\/]/', '', $dados['documento']);
 $senha = $dados['senha'];
 
 try {

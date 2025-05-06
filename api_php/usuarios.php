@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Cabeçalhos para todas as requisições
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -15,14 +14,17 @@ header("Content-Type: application/json");
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
-// Corrigir método PUT e DELETE
 if ($metodo === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
     $metodo = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
 }
 
-if ($metodo === 'GET') {
-    include 'conexao.php';
+include 'conexao.php';
 
+function limparDocumento($doc) {
+    return preg_replace('/[\.\-\/]/', '', $doc);
+}
+
+if ($metodo === 'GET') {
     try {
         if (isset($_GET['id_user'])) {
             $id_user = $_GET['id_user'];
@@ -40,8 +42,8 @@ if ($metodo === 'GET') {
         http_response_code(500);
         echo json_encode(["mensagem" => "Erro ao buscar usuários: " . $e->getMessage()]);
     }
+
 } elseif ($metodo === 'POST') {
-    include 'conexao.php';
     $dados = json_decode(file_get_contents("php://input"), true);
 
     if (!$dados) {
@@ -50,7 +52,13 @@ if ($metodo === 'GET') {
         exit;
     }
 
-    // EDIÇÃO de perfil
+    // Limpa documento
+    $dados['documento'] = limparDocumento($dados['documento']);
+    if (isset($dados['documento_original'])) {
+        $dados['documento_original'] = limparDocumento($dados['documento_original']);
+    }
+
+    // Atualização de usuário
     if (isset($dados['documento_original'])) {
         try {
             $stmt = $pdo->prepare("UPDATE usuario SET 
@@ -80,7 +88,7 @@ if ($metodo === 'GET') {
             echo json_encode(["success" => false, "mensagem" => "Erro ao atualizar: " . $e->getMessage()]);
         }
 
-        // CADASTRO de novo usuário
+    // Cadastro de novo usuário
     } elseif (
         isset($dados['nome']) && isset($dados['tipoPessoa']) &&
         isset($dados['email']) && isset($dados['senha'])
@@ -111,14 +119,12 @@ if ($metodo === 'GET') {
         echo json_encode(["success" => false, "mensagem" => "Dados obrigatórios ausentes."]);
     }
 
-
 } elseif ($metodo === 'PUT') {
-    include 'conexao.php'; // Inclui a conexão ao banco de dados
-
     $dados = json_decode(file_get_contents("php://input"), true);
 
     if ($dados && isset($_GET['id'])) {
         $id = (int) $_GET['id'];
+        $dados['documento'] = limparDocumento($dados['documento']);
 
         try {
             $stmt = $pdo->prepare("UPDATE usuario SET nome = :nome, tipo = :tipo, endereco = :endereco, telefone = :telefone, documento = :documento, senha = :senha, cep = :cep, email = :email WHERE id = :id");
@@ -154,8 +160,6 @@ if ($metodo === 'GET') {
     }
 
 } elseif ($metodo === 'DELETE') {
-    include 'conexao.php'; // Inclui a conexão ao banco de dados
-
     if (isset($_GET['id'])) {
         $id = (int) $_GET['id'];
 
@@ -165,14 +169,10 @@ if ($metodo === 'GET') {
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
-                echo json_encode([
-                    "mensagem" => "Usuário {$id} excluído com sucesso!"
-                ]);
+                echo json_encode(["mensagem" => "Usuário {$id} excluído com sucesso!"]);
             } else {
                 http_response_code(404);
-                echo json_encode([
-                    "mensagem" => "Usuário {$id} não encontrado ou já excluído."
-                ]);
+                echo json_encode(["mensagem" => "Usuário {$id} não encontrado ou já excluído."]);
             }
         } catch (PDOException $e) {
             http_response_code(500);
