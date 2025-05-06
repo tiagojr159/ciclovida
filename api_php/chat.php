@@ -72,6 +72,10 @@ if ($error) {
 // Resposta da OpenAI
 $result = json_decode($response, true);
 
-$reply = $result["choices"][0]["message"]["content"] ?? "Não foi possível gerar uma resposta.";
-
+if (isset($result["choices"][0]["message"]["content"])) {
+    $reply = $result["choices"][0]["message"]["content"];
+} else {
+    http_response_code(500);
+    $reply = "Erro: A resposta da API não pôde ser interpretada. Verifique se a chave da API está correta e se o servidor da OpenAI está respondendo corretamente.";
+}
 echo json_encode(["reply" => $reply]);
