@@ -99,27 +99,28 @@ if ($metodo === 'GET') {
             http_response_code(500);
             echo json_encode(["erro" => "Erro ao cadastrar item: " . $e->getMessage()]);
         }
-    } else {
+    }} elseif ($metodo === 'POST' && isset($dados['acao']) && $dados['acao'] === 'alterar_status') {
+        if (isset($dados['id']) && isset($dados['status'])) {
+            try {
+                $stmt = $pdo->prepare("UPDATE itens SET status = :status WHERE id = :id");
+                $stmt->bindParam(':status', $dados['status'], PDO::PARAM_INT);
+                $stmt->bindParam(':id', $dados['id'], PDO::PARAM_INT);
+                $stmt->execute();
+                echo json_encode(["mensagem" => "Status atualizado com sucesso."]);
+            } catch (PDOException $e) {
+                http_response_code(500);
+                echo json_encode(["erro" => "Erro ao atualizar status: " . $e->getMessage()]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(["erro" => "Parâmetros ausentes para alteração de status."]);
+        }
+     } else {
         http_response_code(400);
         echo json_encode(["erro" => "Campos obrigatórios: nome, id_ponto, id_user"]);
     }
 
-} elseif ($metodo === 'POST' && isset($dados['acao']) && $dados['acao'] === 'alterar_status') {
-    if (isset($dados['id']) && isset($dados['status'])) {
-        try {
-            $stmt = $pdo->prepare("UPDATE itens SET status = :status WHERE id = :id");
-            $stmt->bindParam(':status', $dados['status'], PDO::PARAM_INT);
-            $stmt->bindParam(':id', $dados['id'], PDO::PARAM_INT);
-            $stmt->execute();
-            echo json_encode(["mensagem" => "Status atualizado com sucesso."]);
-        } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(["erro" => "Erro ao atualizar status: " . $e->getMessage()]);
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(["erro" => "Parâmetros ausentes para alteração de status."]);
-    }
+
 } elseif ($metodo === 'PUT') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
