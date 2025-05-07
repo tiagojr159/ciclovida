@@ -20,6 +20,35 @@
   <!-- Estilos personalizados -->
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/responsive.css" rel="stylesheet" />
+<style>
+#itemDetailModal .modal-content {
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#itemDetailModal .modal-header {
+  background-color: #007bff;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#itemDetailModal .modal-body {
+  padding: 20px;
+}
+
+#itemDetailModal .modal-body h6 {
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+#itemDetailModal .modal-body p {
+  margin-bottom: 10px;
+}
+  
+  </style>
+
 </head>
 
 <body class="sub_page">
@@ -60,6 +89,44 @@
     </div>
   </section>
 
+
+
+  <div class="modal fade" id="itemDetailModal" tabindex="-1" role="dialog" aria-labelledby="itemDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="itemDetailModalLabel">Detalhes do Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6>Informações do Item</h6>
+          <p><strong>Nome:</strong> <span id="modalItemName"></span></p>
+          <p><strong>Descrição:</strong> <span id="modalItemDescription"></span></p>
+          <p><strong>Quantidade:</strong> <span id="modalItemQuantity"></span></p>
+          <p><strong>Valor Estimado:</strong> <span id="modalItemValue"></span></p>
+          
+          <h6 class="mt-4">Informações de Coleta</h6>
+          <div id="collectionPointInfo">
+            <p><strong>Ponto de Coleta:</strong> <span id="modalCollectionPointName"></span></p>
+            <p><strong>Endereço:</strong> <span id="modalCollectionPointAddress"></span></p>
+            <p><strong>Responsável:</strong> <span id="modalCollectionPointResponsible"></span></p>
+            <p><strong>Telefone:</strong> <span id="modalCollectionPointPhone"></span></p>
+          </div>
+          <div id="userContactInfo" style="display: none;">
+            <p><strong>Aviso:</strong> Este item não possui um ponto de coleta associado. Entre em contato com o responsável pelo item.</p>
+            <p><strong>Nome do Responsável:</strong> <span id="modalUserName"></span></p>
+            <p><strong>Telefone:</strong> <span id="modalUserPhone"></span></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer_section">
     <div class="container">
       <p>&copy; <span id="displayYear"></span> All Rights Reserved By <a href="https://html.design/">Free Html Templates</a></p>
@@ -79,33 +146,220 @@
 
   <script>
     $(document).ready(function () {
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
-        .then(function (response) {
-          const dados = response.data;
-          const tabela = $('#tabela-itens').DataTable({
-            data: dados,
-            responsive: true,
-            columns: [
-              { data: 'nome' },
-              { data: 'descricao', defaultContent: 'Sem descrição' },
-              { data: 'quantidade' },
-              {
-                data: null,
-                render: function () {
-                  return '<button class="btn btn-success btn-sm">Solicitar</button>';
-                }
+  // Função para inicializar ou reinicializar o DataTable
+  function initializeDataTable(dados) {
+    // Verifica se a tabela já foi inicializada
+    if ($.fn.DataTable.isDataTable('#tabela-itens')) {
+      $('#tabela-itens').DataTable().destroy(); // Destroi a instância anterior
+    }
+
+    // Inicializa o DataTable
+    const tabela = $('#tabela-itens').DataTable({
+      data: dados,
+      responsive: true,
+      columns: [
+        { data: 'nome' },
+        { data: 'descricao', defaultContent: 'Sem descrição' },
+        { data: 'quantidade' },
+        {
+          data: null,
+          render: function (data) {
+            return `<button class="btn btn-success btn-sm btn-solicitar" data-id="${data.id}">Solicitar</button>`;
+          }
+        }
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+      }
+    });
+
+    // Remove eventos anteriores para evitar duplicação
+    $('#tabela-itens').off('click', '.btn-solicitar');
+
+    // Evento de clique no botão Solicitar
+    $('#tabela-itens').on('click', '.btn-solicitar', function () {
+      const itemId = $(this).data('id');
+
+      // Buscar detalhes do item
+      axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${itemId}`)
+        .then(function (itemResponse) {
+          const item = itemResponse.data;
+
+          // Preencher informações do item no modal
+          $('#modalItemName').text(item.nome || 'Não informado');
+          $('#modalItemDescription').text(item.descricao || 'Sem descrição');
+          $('#modalItemQuantity').text(item.quantidade || 'Não informado');
+          $('#modalItemValue').text(item.valor ? `R$ ${parseFloat(item.valor).toFixed(2)}` : 'Não informado');
+
+          // Buscar informações do usuário
+          axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/usuario.php?id_user=${item.id_user}`)
+            .then(function (userResponse) {
+              const user = userResponse.data.usuario;
+
+              // Se não houver ponto de coleta, mostrar informações do usuário
+              if (!item.id_ponto) {
+                $('#collectionPointInfo').hide();
+                $('#userContactInfo').show();
+                $('#modalUserName').text(user.nome || 'Não informado');
+                $('#modalUserPhone').text(user.telefone || 'Não informado');
+              } else {
+                // Buscar informações do ponto de coleta
+                axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php?id=${item.id_ponto}`)
+                  .then(function (pointResponse) {
+                    const point = pointResponse.data;
+
+                    $('#collectionPointInfo').show();
+                    $('#userContactInfo').hide();
+                    $('#modalCollectionPointName').text(point.nome_ponto || 'Não informado');
+                    $('#modalCollectionPointAddress').text(point.endereco || 'Não informado');
+                    $('#modalCollectionPointResponsible').text(point.responsavel || 'Não informado');
+                    $('#modalCollectionPointPhone').text(point.telefone || 'Não informado');
+
+                    // Abrir o modal
+                    $('#itemDetailModal').modal('show');
+                  })
+                  .catch(function (error) {
+                    console.error('Erro ao buscar ponto de coleta:', error);
+                    alert('Erro ao carregar informações do ponto de coleta.');
+                  });
               }
-            ],
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
-            }
-          });
+            })
+            .catch(function (error) {
+              console.error('Erro ao buscar usuário:', error);
+              alert('Erro ao carregar informações do usuário.');
+            });
         })
         .catch(function (error) {
-          console.error('Erro ao carregar dados:', error);
-          alert('Erro ao carregar os itens. Tente novamente mais tarde.');
+          console.error('Erro ao buscar item:', error);
+          alert('Erro ao carregar detalhes do item.');
         });
     });
+  }
+
+  // Carrega os dados da API e inicializa o DataTable
+  axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
+    .then(function (response) {
+      const dados = response.data;
+      initializeDataTable(dados);
+    })
+    .catch(function (error) {
+      console.error('Erro ao carregar dados:', error);
+      alert('Erro ao carregar os itens. Tente novamente mais tarde.');
+    });
+});
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function () {
+  // Função para inicializar ou reinicializar o DataTable
+  function initializeDataTable(dados) {
+    // Verifica se a tabela já foi inicializada
+    if ($.fn.DataTable.isDataTable('#tabela-itens')) {
+      $('#tabela-itens').DataTable().destroy(); // Destroi a instância anterior
+    }
+
+    // Inicializa o DataTable
+    const tabela = $('#tabela-itens').DataTable({
+      data: dados,
+      responsive: true,
+      columns: [
+        { data: 'nome' },
+        { data: 'descricao', defaultContent: 'Sem descrição' },
+        { data: 'quantidade' },
+        {
+          data: null,
+          render: function (data) {
+            return `<button class="btn btn-success btn-sm btn-solicitar" data-id="${data.id}">Solicitar</button>`;
+          }
+        }
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+      }
+    });
+
+    // Remove eventos anteriores para evitar duplicação
+    $('#tabela-itens').off('click', '.btn-solicitar');
+
+    // Evento de clique no botão Solicitar
+    $('#tabela-itens').on('click', '.btn-solicitar', function () {
+      const itemId = $(this).data('id');
+
+      // Buscar detalhes do item
+      axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${itemId}`)
+        .then(function (itemResponse) {
+          const item = itemResponse.data;
+
+          // Preencher informações do item no modal
+          $('#modalItemName').text(item.nome || 'Não informado');
+          $('#modalItemDescription').text(item.descricao || 'Sem descrição');
+          $('#modalItemQuantity').text(item.quantidade || 'Não informado');
+          $('#modalItemValue').text(item.valor ? `R$ ${parseFloat(item.valor).toFixed(2)}` : 'Não informado');
+
+          // Buscar informações do usuário
+          axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/usuario.php?id_user=${item.id_user}`)
+            .then(function (userResponse) {
+              const user = userResponse.data.usuario;
+
+              // Se não houver ponto de coleta, mostrar informações do usuário
+              if (!item.id_ponto) {
+                $('#collectionPointInfo').hide();
+                $('#userContactInfo').show();
+                $('#modalUserName').text(user.nome || 'Não informado');
+                $('#modalUserPhone').text(user.telefone || 'Não informado');
+              } else {
+                // Buscar informações do ponto de coleta
+                axios.get(`https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php?id=${item.id_ponto}`)
+                  .then(function (pointResponse) {
+                    const point = pointResponse.data;
+
+                    $('#collectionPointInfo').show();
+                    $('#userContactInfo').hide();
+                    $('#modalCollectionPointName').text(point.nome_ponto || 'Não informado');
+                    $('#modalCollectionPointAddress').text(point.endereco || 'Não informado');
+                    $('#modalCollectionPointResponsible').text(point.responsavel || 'Não informado');
+                    $('#modalCollectionPointPhone').text(point.telefone || 'Não informado');
+
+                    // Abrir o modal
+                    $('#itemDetailModal').modal('show');
+                  })
+                  .catch(function (error) {
+                    console.error('Erro ao buscar ponto de coleta:', error);
+                    alert('Erro ao carregar informações do ponto de coleta.');
+                  });
+              }
+            })
+            .catch(function (error) {
+              console.error('Erro ao buscar usuário:', error);
+              alert('Erro ao carregar informações do usuário.');
+            });
+        })
+        .catch(function (error) {
+          console.error('Erro ao buscar item:', error);
+          alert('Erro ao carregar detalhes do item.');
+        });
+    });
+  }
+
+  // Carrega os dados da API e inicializa o DataTable
+  axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
+    .then(function (response) {
+      const dados = response.data;
+      initializeDataTable(dados);
+    })
+    .catch(function (error) {
+      console.error('Erro ao carregar dados:', error);
+      alert('Erro ao carregar os itens. Tente novamente mais tarde.');
+    });
+});
+
   </script>
   <script src="js/headerLoader.js" defer></script>  
 </body>
