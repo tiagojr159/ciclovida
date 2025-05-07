@@ -3,3 +3,4 @@ fetch('header.html')
   .then(data => {
     document.getElementById('header-placeholder').innerHTML = data;
   });
+

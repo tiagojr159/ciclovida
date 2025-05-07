@@ -497,41 +497,7 @@
   <script src="js/custom.js"></script>
   <!-- User Authentication Script -->
   <script>
-    var usuarioLogado = localStorage.getItem('usuarioLogado');
-    var labelUsuario = document.getElementById('labelUsuario');
-    var usuLog = 0;
-    try {
-      console.log(JSON.parse(usuarioLogado));
-      usuarioLogado = JSON.parse(usuarioLogado);
-      var usuLog = 1;
-    } catch (error) {
-      console.log('Usuário não logado');
-      usuarioLogado = null;
-    }
-    if (usuLog == 1) {
-      labelUsuario.innerHTML = `
-      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
-        ${usuarioLogado.nome}
-      </span>
-      <span onclick="logout()" style="color: #fde01b; font-weight: bold; margin-right: 10px;">
-        Logout
-      </span>
-    `;
-    } else {
-      labelUsuario.innerHTML = `
-      <a href="login.html">
-        <i class="fa fa-user" aria-hidden="true"></i>
-        <span style="color: #fde01b;">Entrar</span>
-      </a>
-     `;
-    }
-
-    function logout() {
-      alert('Logout realizado com sucesso!');
-      localStorage.removeItem('usuarioLogado');
-      window.location.href = 'login.html';
-    }
-
+  
 
     
   </script>

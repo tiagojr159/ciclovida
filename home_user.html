@@ -55,9 +55,9 @@
 </head>
 
 <body class="sub_page">
-      <!-- Header section -->
-      <div id="header-placeholder"></div>
-      <!-- end header section -->
+  <!-- Header section -->
+  <div id="header-placeholder"></div>
+  <!-- end header section -->
 
   <!-- Perfil do Usuário -->
   <section class="contact_section layout_padding-bottom">
@@ -207,17 +207,6 @@
       console.log(usuarioLogado);
 
 
-      // Exibir nome do usuário e botão de logout
-      labelUsuario.innerHTML = `
-      <span style="color: #fde01b; font-weight: bold; margin-right: 10px;">
-        ${usuarioLogado.nome}
-      </span>
-      <span onclick="logout()" style="cursor:pointer; color: #fde01b; font-weight: bold;">
-        Logout
-      </span>
-    `;
-
-
 
 
 
@@ -352,11 +341,15 @@
 
       if (!confirmacao) return;
 
-      axios.patch(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}&status=${novoStatus}`)
-        .then(response => {
-          alert(response.data.mensagem || 'Status alterado com sucesso!');
-          location.reload();
-        })
+
+      axios.post(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php`, {
+        id: id,
+        status: novoStatus,
+        acao: 'alterar_status'
+      }).then(response => {
+        alert(response.data.mensagem || 'Status alterado com sucesso!');
+        location.reload();
+      })
         .catch(error => {
           console.error('Erro ao alterar status:', error);
           alert('Erro ao atualizar o status do produto.');
@@ -374,7 +367,7 @@
     }
 
   </script>
-  <script src="js/headerLoader.js" defer></script>  
+  <script src="js/headerLoader.js" defer></script>
 </body>
 
 </html>
