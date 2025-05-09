@@ -53,7 +53,7 @@
 
   <!-- Mapa -->
   <div class="container mt-5">
-    <h2 class="text-center mb-4">Mapa de Pontos de Coleta em Recife</h2>
+    <h2 class="text-center mb-4">MONITORAMENTO</h2>
     <div id="map"></div>
   </div>
 
@@ -83,7 +83,7 @@
       maxZoom: 18,
     }).addTo(map);
 
-    axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
+    axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php')
       .then(function (response) {
         const pontos = response.data;
         console.log(response.data);
@@ -93,7 +93,7 @@
           if (ponto.lat && ponto.log) {
             const latitude = parseFloat(ponto.lat);
             const longitude = parseFloat(ponto.log);
-
+            let fillColor="";
             // Validate that the coordinates are numbers and within valid ranges
             if (!isNaN(latitude) && !isNaN(longitude) && 
                 latitude >= -90 && latitude <= 90 && 
@@ -105,10 +105,19 @@
                 <p><strong>Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
               `;
 
+              fillColor = '#ffffff';
+              if (ponto.status === '1') {
+                if (ponto.ponto_tipo === 'coleta') {
+                  fillColor = '#ff0000'; // Red for coleta and status 1
+                } else if (ponto.ponto_tipo === 'beneficiario') {
+                  fillColor = '#ffff00'; // Yellow for beneficiario and status 1
+                }
+              }
+
               L.circleMarker([latitude, longitude],{
                 radius: 8,
                 color: '#000000', 
-                fillColor: '#ffffff', 
+                fillColor: fillColor, 
                 fillOpacity: 1              
             })
                 .addTo(map)
@@ -121,9 +130,9 @@
           }
         });
 
-        // Adiciona ponto de exemplo fixo
+        // Adiciona MONITORAMENTO fixo
     /*    const descricaoExemplo = `
-          <div class="popup-title">Ponto de Coleta - ONG Vida Solidária</div>
+          <div class="popup-title">MONITORAMENTO</div>
           <p><strong>Responsável:</strong> Ana Souza</p>
           <p><strong>Telefone:</strong> (81) 91234-5678</p>
           <p><strong>Endereço:</strong> Rua da Solidariedade, 123 - Boa Vista, Recife - PE</p>

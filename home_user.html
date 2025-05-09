@@ -51,6 +51,18 @@
       border-radius: 0;
       font-weight: bold;
     }
+
+    .btn-cheio {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -65,7 +77,7 @@
       <div class="card shadow-lg p-5 card-custom text-center">
         <div class="perfil-foto d-flex align-items-center justify-content-center mx-auto"
           style="width: 150px; height: 150px; border-radius: 50%; background-color: #f0f0f0; font-size: 80px;">
-          &#128100;
+          👤
         </div>
 
         <h3 class="mb-4" id="nomeUsuario">Nome do Usuário</h3>
@@ -97,10 +109,10 @@
           </div>
         </div>
 
-
         <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
           <a href="editar_user.html" class="btn-editar">Editar Perfil</a>
-          <button onclick="logout()" class="btn btn-danger" style="padding: 15px 65px; font-weight: bold; border-radius: 0; text-transform: uppercase;">
+          <button onclick="logout()" class="btn btn-danger"
+            style="padding: 15px 65px; font-weight: bold; border-radius: 0; text-transform: uppercase;">
             Sair
           </button>
         </div>
@@ -108,16 +120,16 @@
     </div>
   </section>
 
-
-
-
   <!-- Conteúdo -->
   <section class="layout_padding-bottom">
     <div class="container">
+      <!-- Placeholder para Pontos de Colega (se necessário) -->
+
+
       <!-- Tabela de Pontos de Coleta -->
-      <div class="card shadow-lg p-4 mb-5" style="border-radius: 20px;">
+      <div id="secao-pontos-coleta" class="card shadow-lg p-4 mb-5" style="border-radius: 20px;">
         <div class="text-center mb-4">
-          <h3>Pontos de Coleta</h3>
+          <h3>Localização</h3>
           <p>Veja os pontos de coleta registrados pelo sistema</p>
         </div>
         <div class="table-responsive">
@@ -128,8 +140,8 @@
                 <th>Responsável</th>
                 <th>Telefone</th>
                 <th>Endereço</th>
+                <th>Tipo</th>
                 <th>Ação</th>
-
               </tr>
             </thead>
             <tbody></tbody>
@@ -138,7 +150,7 @@
       </div>
 
       <!-- Tabela de Produtos para Doação -->
-      <div class="card shadow-lg p-4" style="border-radius: 20px;">
+      <div id="secao-produtos" class="card shadow-lg p-4" style="border-radius: 20px;">
         <div class="text-center mb-4">
           <h3>Produtos para Doação</h3>
           <p>Veja os produtos disponíveis para doação</p>
@@ -178,11 +190,8 @@
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
 
-
-
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const labelUsuario = document.getElementById('labelUsuario');
       let usuarioLogado = localStorage.getItem('usuarioLogado');
 
       if (!usuarioLogado) {
@@ -190,13 +199,6 @@
         window.location.href = 'login.html';
         return;
       }
-
-
-
-
-
-
-
 
       try {
         usuarioLogado = JSON.parse(usuarioLogado);
@@ -209,15 +211,17 @@
 
       const id_user = usuarioLogado.id_user;
       const documento = usuarioLogado.documento;
-      console.log(usuarioLogado);
+      const agente = usuarioLogado.agente; // Assumindo que 'agente' está no objeto
 
+      // Aplicar regras de visibilidade com base no agente
+      if (agente == 1) {
+        $('#secao-pontos-coleta').addClass('hidden');
+      }
+      if (agente == 2) {
+        $('#secao-produtos').addClass('hidden');
+      }
 
-
-
-
-
-
-
+      // Carregar dados do usuário
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', {
         params: { id_user }
       })
@@ -245,13 +249,8 @@
           alert('Erro ao carregar perfil. Tente novamente.');
         });
 
-
-
-
-
-
       // Carregar Pontos de Coleta
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php', {
+      axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php', {
         params: { id_user }
       }).then(function (response) {
         if ($.fn.DataTable.isDataTable('#tabela-coleta')) {
@@ -265,13 +264,24 @@
             { data: 'responsavel' },
             { data: 'telefone' },
             { data: 'endereco' },
+            { data: 'tipo' }, // Adiciona a coluna Tipo
             {
               data: null,
               render: function (data, type, row) {
-                return `<button class="btn btn-info btn-sm" onclick="editarColeta(${row.id})">Editar</button>`;
+                let botaoStatus = '';
+
+                if (row.status == 0) {
+                  botaoStatus = `<button class="btn btn-warning btn-sm mr-2" onclick="solicitarItem(${row.id}, ${row.ponto_id},1)">Vazio</button>`;
+                } else {
+                  botaoStatus = `<button class="btn btn-success btn-sm mr-2" onclick="solicitarItem(${row.id}, ${row.ponto_id},0)">Cheio</button>`;
+                }
+
+                return `
+                  ${botaoStatus}
+
+                `;
               }
             }
-
           ],
           language: {
             url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
@@ -282,50 +292,108 @@
         alert('Erro ao carregar os pontos de coleta.');
       });
 
-      // Carregar Produtos para Doação
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', {
-        params: { id_user }
-      }).then(function (response) {
-        if ($.fn.DataTable.isDataTable('#tabela-produtos')) {
-          $('#tabela-produtos').DataTable().clear().destroy();
-        }
-        $('#tabela-produtos').DataTable({
-          data: response.data,
-          responsive: true,
-          columns: [
-            { data: 'nome' },
-            { data: 'descricao', defaultContent: 'Sem descrição' },
-            { data: 'quantidade' },
-            {
-              data: null,
-              render: function (data, type, row) {
-                let cor = row.status == 1 ? 'success' : 'warning';
-                let texto = row.status == 1 ? 'Disponível' : 'Indisponível';
-
-                return `
-                  <button class="btn btn-${cor} btn-sm mr-2" onclick="alternarStatus(${row.id}, ${row.status})">${texto}</button>
-                  <button class="btn btn-info btn-sm mr-2" onclick="editarProduto(${row.id})">Editar</button>
-                  <button class="btn btn-danger btn-sm" onclick="apagarProduto(${row.id})">Apagar</button>
-                `;
-              }
-            }
-          ],
-          language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+      // Carregar Produtos para Doação (apenas se agente !== 2)
+      if (agente !== 2) {
+        axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php', {
+          params: { id_user }
+        }).then(function (response) {
+          if ($.fn.DataTable.isDataTable('#tabela-produtos')) {
+            $('#tabela-produtos').DataTable().clear().destroy();
           }
+          $('#tabela-produtos').DataTable({
+            data: response.data,
+            responsive: true,
+            columns: [
+              { data: 'nome' },
+              { data: 'descricao', defaultContent: 'Sem descrição' },
+              { data: 'quantidade' },
+              {
+                data: null,
+                render: function (data, type, row) {
+                  let cor = row.status == 1 ? 'success' : 'warning';
+                  let texto = row.status == 1 ? 'Disponível' : 'Indisponível';
+                  return `
+                    <button class="btn btn-${cor} btn-sm mr-2" onclick="alternarStatus(${row.id}, ${row.status})">${texto}</button>
+                    <button class="btn btn-info btn-sm mr-2" onclick="editarProduto(${row.id})">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="apagarProduto(${row.id})">Apagar</button>
+                  `;
+                }
+              }
+            ],
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+            }
+          });
+        }).catch(function (error) {
+          console.error('Erro ao carregar produtos:', error);
+          alert('Erro ao carregar os produtos.');
         });
-      }).catch(function (error) {
-        console.error('Erro ao carregar produtos:', error);
-        alert('Erro ao carregar os produtos.');
-      });
+      }
+
+      // Carregar Pontos de Colega (placeholder, apenas se agente !== 1)
+      /*  if (agente !== 1) {
+          axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/pontos_colega.php', {
+            params: { id_user }
+          }).then(function (response) {
+            if ($.fn.DataTable.isDataTable('#tabela-colega')) {
+              $('#tabela-colega').DataTable().clear().destroy();
+            }
+            $('#tabela-colega').DataTable({
+              data: response.data,
+              responsive: true,
+              columns: [
+                { data: 'nome_ponto' },
+                { data: 'responsavel' },
+                { data: 'telefone' },
+                { data: 'endereco' }
+              ],
+              language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+              }
+            });
+          }).catch(function (error) {
+            console.error('Erro ao carregar pontos de colega:', error);
+          });
+        }*/
     });
 
-    // Função de logout (se ainda não tiver)
+    // Função de logout
     function logout() {
       localStorage.removeItem('usuarioLogado');
       window.location.href = 'login.html';
     }
 
+
+    function solicitarItem(id, idPonto, status) {
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      if (!usuarioLogado || !usuarioLogado.id_user) {
+        alert('Usuário não logado.');
+        return;
+      }
+
+      const id_user = usuarioLogado.id_user;
+
+      if (confirm('Deseja marcar como cheio?')) {
+        axios.post('http://localhost/ciclovida/api_php/item.php', {
+          acao: 'solicitar',
+          id_user: id_user,
+          id_item: 0,
+          id_ponto: idPonto,
+          status: status
+        })
+          .then(response => {
+            alert(response.data || 'Solicitação realizada com sucesso!');
+            location.reload();
+          })
+          .catch(error => {
+            console.error('Erro ao solicitar item:', error.response?.data || error.message);
+            alert('Erro ao solicitar o item. Verifique disponibilidade ou tente novamente.');
+          });
+      }
+    }
+
+
+    // Função para apagar produto
     function apagarProduto(id) {
       if (confirm('Tem certeza que deseja apagar este produto? Essa ação não poderá ser desfeita.')) {
         axios.delete(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php?id=${id}`)
@@ -340,12 +408,12 @@
       }
     }
 
+    // Função para alternar status do produto
     function alternarStatus(id, statusAtual) {
       const novoStatus = statusAtual === 1 ? 0 : 1;
       const confirmacao = confirm("Deseja alterar o status para " + (novoStatus === 1 ? 'Disponível' : 'Indisponível') + "?");
 
       if (!confirmacao) return;
-
 
       axios.post(`https://ciclovida.ki6.com.br/ciclovida/api_php/item.php`, {
         id: id,
@@ -361,15 +429,20 @@
         });
     }
 
+    // Função para editar produto
     function editarProduto(id) {
-      // Salva o ID no localStorage para a tela de edição usar
       localStorage.setItem('id_produto_edicao', id);
       window.location.href = 'editar_produto.html';
     }
+
+    // Função para editar ponto de coleta
     function editarColeta(id) {
       localStorage.setItem('id_coleta_edicao', id);
       window.location.href = 'editar_coleta.html';
     }
+
+    // Função para marcar ponto de coleta como cheio
+
 
   </script>
   <script src="js/headerLoader.js" defer></script>

@@ -19,7 +19,7 @@ include 'conexao.php';
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo === 'GET') {
-    try {
+
         if (isset($_GET['id'])) {
             $stmt = $pdo->prepare("SELECT * FROM ponto_coleta WHERE id = :id");
             $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
@@ -27,20 +27,43 @@ if ($metodo === 'GET') {
             $ponto = $stmt->fetch(PDO::FETCH_ASSOC);
             echo json_encode($ponto ?: []);
         } elseif (isset($_GET['id_user'])) {
-            $stmt = $pdo->prepare("SELECT * FROM ponto_coleta WHERE id_user = :id_user");
+            $stmt = $pdo->prepare("SELECT 
+                                          id AS ponto_id,
+                                nome_ponto AS nome_ponto,
+                                endereco AS endereco,
+                                descricao AS descricao,
+                                responsavel AS responsavel,
+                                telefone AS telefone,
+                                log,
+                                lat,
+                                id_user AS id_user,
+                                tipo AS tipo,
+                                (select solicitacao.status from solicitacao where id_ponto = ponto_coleta.id order by solicitacao.id desc limit 1 ) as status
+                            FROM ponto_coleta
+                            where ponto_coleta.id_user = :id_user");
             $stmt->bindParam(':id_user', $_GET['id_user'], PDO::PARAM_INT);
             $stmt->execute();
             $pontos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($pontos);
         } else {
-            $stmt = $pdo->query("SELECT * FROM ponto_coleta");
+            $stmt = $pdo->query("SELECT 
+                               
+                                id AS ponto_id,
+                                nome_ponto AS ponto_nome_ponto,
+                                endereco AS ponto_endereco,
+                                descricao AS ponto_descricao,
+                                responsavel AS ponto_responsavel,
+                                telefone AS ponto_telefone,
+                                log,
+                                lat,
+                                id_user AS id_user,
+                                tipo AS ponto_tipo,
+                                (select solicitacao.status from solicitacao where id_ponto = ponto_coleta.id limit 1 ) as status
+                            FROM ponto_coleta");
             $pontos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($pontos);
         }
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(["erro" => "Erro ao buscar dados: " . $e->getMessage()]);
-    }
+    
 
 } elseif ($metodo === 'POST') {
     $dados = json_decode(file_get_contents("php://input"), true);

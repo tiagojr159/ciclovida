@@ -55,15 +55,13 @@ if ($metodo === 'GET') {
         if (isset($dados['id_user'], $dados['id_item'], $dados['id_ponto'])) {
             try {
                 // Verificar se o item existe e tem quantidade disponível
-                $stmt = $pdo->prepare("SELECT quantidade FROM itens WHERE id = :id_item");
-                $stmt->execute([':id_item' => $dados['id_item']]);
-                $item = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if (!$item || $item['quantidade'] <= 0) {
-                    http_response_code(400);
-                    echo json_encode(["erro" => "Item não disponível ou sem estoque."]);
-                    exit;
+                if ($dados['id_item'] == 0) {
+                    $stmt = $pdo->prepare("UPDATE solicitacao SET status = 0 WHERE id_user = :id_user and id_ponto = :id_ponto");
+                    $stmt->bindParam(':id_user', $dados['id_user'], PDO::PARAM_INT);
+                    $stmt->bindParam(':id_ponto', $dados['id_ponto'], PDO::PARAM_INT);
+                    $stmt->execute();
                 }
+
 
                 // Inserir solicitação
                 $stmt = $pdo->prepare("INSERT INTO solicitacao (id_user, id_item, id_ponto, status) VALUES (:id_user, :id_item, :id_ponto, :status)");
@@ -71,12 +69,9 @@ if ($metodo === 'GET') {
                     ':id_user' => $dados['id_user'],
                     ':id_item' => $dados['id_item'],
                     ':id_ponto' => $dados['id_ponto'],
-                    ':status' => '1'
+                    ':status' => $dados['status']
                 ]);
 
-                // Decrementar quantidade do item
-                /*$stmt = $pdo->prepare("UPDATE itens SET quantidade = quantidade - 1 WHERE id = :id_produto");
-                $stmt->execute([':id_produto' => $dados['id_produto']]);*/
 
                 echo json_encode(["mensagem" => "Alimento solicitado com sucesso à secretaria SEAU!"]);
             } catch (PDOException $e) {
@@ -88,7 +83,7 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Parâmetros ausentes: id_user, id_produto ou id_ponto."]);
         }
 
-    // Atualização de item se vier com 'id_original'
+        // Atualização de item se vier com 'id_original'
     } elseif (isset($dados['id_original'])) {
         try {
             $stmt = $pdo->prepare("UPDATE itens SET 
@@ -116,7 +111,7 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Erro ao atualizar item: " . $e->getMessage()]);
         }
 
-    // Cadastro de novo item
+        // Cadastro de novo item
     } elseif (isset($dados['nome'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO itens 
@@ -138,7 +133,7 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Erro ao cadastrar item: " . $e->getMessage()]);
         }
 
-    // Alteração de status
+        // Alteração de status
     } elseif (isset($dados['acao']) && $dados['acao'] === 'alterar_status') {
         if (isset($dados['id']) && isset($dados['status'])) {
             try {

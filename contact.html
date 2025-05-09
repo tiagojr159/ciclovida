@@ -60,10 +60,31 @@
     </div>
   </section>
 
+  <!-- Modal flutuante -->
+  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="infoModalLabel">Detalhes do Produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Nome:</strong> <span id="modal-nome"></span></p>
+          <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-success" onclick="solicitarItem()">Solicitar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer_section">
     <div class="container">
-      <p>&copy; <span id="displayYear"></span> All Rights Reserved By <a href="https://html.design/">Free Html
-          Templates</a></p>
+      <p>© <span id="displayYear"></span> All Rights Reserved By <a href="https://html.design/">Free Html Templates</a></p>
     </div>
   </footer>
 
@@ -77,33 +98,11 @@
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-  <!-- ... [Código HTML original acima permanece inalterado até a <script>] ... -->
-
-  <!-- Modal flutuante -->
-  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="infoModalLabel">Detalhes do Produto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Nome:</strong> <span id="modal-nome"></span></p>
-                <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-success" onclick="solicitarItem()">Solicitar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
   <script>
     let usuarios = [];
     let pontos = [];
+    let currentItem = null; // Armazena o item atual para uso na solicitação
 
     // Carrega dados extras (usuários e pontos)
     axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php')
@@ -111,70 +110,48 @@
     axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
       .then(response => { pontos = response.data; });
 
-    $(document).ready(function () {
-      axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
-        .then(function (response) {
-          const dados = response.data;
-          const tabela = $('#tabela-itens').DataTable({
-            data: dados,
-            responsive: true,
-            columns: [
-              { data: 'nome' },
-              { data: 'descricao', defaultContent: 'Sem descrição' },
-              { data: 'quantidade' },
-              {
-                data: null,
-                render: function (data, type, row) {
-                  return `<button class="btn btn-success btn-sm" onclick='abrirModal(${JSON.stringify(row)})'>Solicitar</button>`;
-                }
-              }
-            ],
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
-            }
-          });
-        })
-        .catch(function (error) {
-          console.error('Erro ao carregar dados:', error);
-          alert('Erro ao carregar os itens. Tente novamente mais tarde.');
-        });
-    });
-
-    let currentItem = null; // Armazena o item atual para uso na solicitação
-
-function abrirModal(item) {
-    currentItem = item; // Armazena o item para uso posterior
-    document.getElementById('modal-nome').textContent = item.nome;
-    document.getElementById('modal-descricao').textContent = item.descricao || 'Sem descrição';
-    $('#infoModal').modal('show');
-}
-
-function solicitarItem() {
-    if (!currentItem) {
-        alert('Erro: Nenhum item selecionado.');
-        return;
+    // Função para abrir o modal e preencher com os dados do item
+    function abrirModal(item) {
+      currentItem = item; // Armazena o item atual
+      $('#modal-nome').text(item.nome || 'Sem nome');
+      $('#modal-descricao').text(item.descricao || 'Sem descrição');
+      $('#infoModal').modal('show'); // Abre o modal
     }
 
-    // Supondo que o ID do usuário logado esteja disponível (ex.: armazenado no localStorage)
-    const idUser = localStorage.getItem('userId') || 1; // Substitua por lógica real de autenticação
+    // Função para solicitar o item
+    function solicitarItem() {
+      if (!currentItem) {
+        alert('Erro: Nenhum item selecionado.');
+        return;
+      }
 
-    axios.post('http://localhost/ciclovida/api_php/item.php', {
+      // Supondo que o ID do usuário logado esteja disponível (ex.: armazenado no localStorage)
+      const idUser = localStorage.getItem('userId') || 1; // Substitua por lógica real de autenticação
+
+      // Verifica se as propriedades necessárias existem
+      if (!currentItem.id || !currentItem.id_ponto) {
+        alert('Erro: Informações do item incompletas.');
+        return;
+      }
+
+      axios.post('http://localhost/ciclovida/api_php/item.php', {
         acao: 'solicitar',
         id_user: idUser,
         id_item: currentItem.id,
-        id_ponto: currentItem.id_ponto
-    })
-    .then(function (response) {
-      window.location.reload();
-    })
-    .catch(function (error) {
-        console.error('Erro ao solicitar item:', error);
-        alert('Erro ao solicitar o item. Tente novamente.');
-    });
-}
-  </script>
+        id_ponto: currentItem.id_ponto,
+        status: 1
+      })
+        .then(function (response) {
+          alert('Item solicitado com sucesso!');
+          $('#infoModal').modal('hide'); // Fecha o modal
+          window.location.reload(); // Recarrega a página
+        })
+        .catch(function (error) {
+          console.error('Erro ao solicitar item:', error);
+          alert('Erro ao solicitar o item. Tente novamente.');
+        });
+    }
 
-  <script>
     $(document).ready(function () {
       axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/item.php')
         .then(function (response) {
@@ -208,6 +185,7 @@ function solicitarItem() {
         });
     });
   </script>
+
   <script src="js/headerLoader.js" defer></script>
 </body>
 
