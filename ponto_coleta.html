@@ -83,7 +83,7 @@
       maxZoom: 18,
     }).addTo(map);
 
-    axios.get('http://localhost/ciclovida/api_php/ponto_coleta.php')
+    axios.get('https://ciclovida.ki6.com.br/ciclovida/api_php/ponto_coleta.php')
       .then(function (response) {
         const pontos = response.data;
         console.log(response.data);
