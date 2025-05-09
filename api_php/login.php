@@ -27,7 +27,7 @@ $documento = preg_replace('/[\.\-\/]/', '', $dados['documento']);
 $senha = $dados['senha'];
 
 try {
-    $stmt = $pdo->prepare("SELECT id, nome, documento, senha FROM usuario WHERE documento = :documento");
+    $stmt = $pdo->prepare("SELECT id, nome, documento, senha, agente FROM usuario WHERE documento = :documento");
     $stmt->bindParam(':documento', $documento);
     $stmt->execute();
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,6 +38,7 @@ try {
             "usuario" => [
                 "nome" => $usuario['nome'],
                 "id_user" => $usuario['id'],
+                "agente" => $usuario['agente'],
                 "documento" => $usuario['documento']
             ]
         ]);

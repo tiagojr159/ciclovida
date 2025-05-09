@@ -50,8 +50,46 @@ if ($metodo === 'GET') {
         exit;
     }
 
+    // Novo endpoint para solicitação
+    if (isset($dados['acao']) && $dados['acao'] === 'solicitar') {
+        if (isset($dados['id_user'], $dados['id_item'], $dados['id_ponto'])) {
+            try {
+                // Verificar se o item existe e tem quantidade disponível
+                $stmt = $pdo->prepare("SELECT quantidade FROM itens WHERE id = :id_item");
+                $stmt->execute([':id_item' => $dados['id_item']]);
+                $item = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$item || $item['quantidade'] <= 0) {
+                    http_response_code(400);
+                    echo json_encode(["erro" => "Item não disponível ou sem estoque."]);
+                    exit;
+                }
+
+                // Inserir solicitação
+                $stmt = $pdo->prepare("INSERT INTO solicitacao (id_user, id_item, id_ponto, status) VALUES (:id_user, :id_item, :id_ponto, :status)");
+                $stmt->execute([
+                    ':id_user' => $dados['id_user'],
+                    ':id_item' => $dados['id_item'],
+                    ':id_ponto' => $dados['id_ponto'],
+                    ':status' => '1'
+                ]);
+
+                // Decrementar quantidade do item
+                /*$stmt = $pdo->prepare("UPDATE itens SET quantidade = quantidade - 1 WHERE id = :id_produto");
+                $stmt->execute([':id_produto' => $dados['id_produto']]);*/
+
+                echo json_encode(["mensagem" => "Alimento solicitado com sucesso à secretaria SEAU!"]);
+            } catch (PDOException $e) {
+                http_response_code(500);
+                echo json_encode(["erro" => "Erro ao registrar solicitação: " . $e->getMessage()]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(["erro" => "Parâmetros ausentes: id_user, id_produto ou id_ponto."]);
+        }
+
     // Atualização de item se vier com 'id_original'
-    if (isset($dados['id_original'])) {
+    } elseif (isset($dados['id_original'])) {
         try {
             $stmt = $pdo->prepare("UPDATE itens SET 
                 nome = :nome, 
@@ -78,7 +116,7 @@ if ($metodo === 'GET') {
             echo json_encode(["erro" => "Erro ao atualizar item: " . $e->getMessage()]);
         }
 
-        // Cadastro de novo item
+    // Cadastro de novo item
     } elseif (isset($dados['nome'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO itens 
@@ -99,7 +137,9 @@ if ($metodo === 'GET') {
             http_response_code(500);
             echo json_encode(["erro" => "Erro ao cadastrar item: " . $e->getMessage()]);
         }
-    } elseif ($metodo === 'POST' && isset($dados['acao']) && $dados['acao'] === 'alterar_status') {
+
+    // Alteração de status
+    } elseif (isset($dados['acao']) && $dados['acao'] === 'alterar_status') {
         if (isset($dados['id']) && isset($dados['status'])) {
             try {
                 $stmt = $pdo->prepare("UPDATE itens SET status = :status WHERE id = :id");
@@ -120,7 +160,6 @@ if ($metodo === 'GET') {
         echo json_encode(["erro" => "Campos obrigatórios: nome, id_ponto, id_user"]);
     }
 
-
 } elseif ($metodo === 'PUT') {
     $dados = json_decode(file_get_contents("php://input"), true);
 
@@ -134,7 +173,7 @@ if ($metodo === 'GET') {
                 ':id_user' => $dados['id_user'],
                 ':descricao' => $dados['descricao'] ?? null,
                 ':valor' => $dados['valor'] ?? 0.00,
-                ':id' => $_GET['id']
+                ':id' => $_GET['(Max id']
             ]);
 
             echo json_encode(["mensagem" => "Item atualizado com sucesso."]);

@@ -95,8 +95,8 @@ if ($metodo === 'GET') {
     ) {
         try {
             $stmt = $pdo->prepare("INSERT INTO usuario 
-                (nome, tipo, endereco, telefone, documento, senha, cep, email) 
-                VALUES (:nome, :tipoPessoa, :endereco, :telefone, :documento, :senha, :cep, :email)");
+                (nome, tipo, endereco, telefone, documento, senha, cep, email, agente) 
+                VALUES (:nome, :tipoPessoa, :endereco, :telefone, :documento, :senha, :cep, :email, 2)");
 
             $stmt->bindParam(':nome', $dados['nome']);
             $stmt->bindParam(':tipoPessoa', $dados['tipoPessoa']);

@@ -80,30 +80,26 @@
   <!-- ... [Código HTML original acima permanece inalterado até a <script>] ... -->
 
   <!-- Modal flutuante -->
-  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="infoModalLabel">Detalhes do Produto</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Detalhes do Produto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nome:</strong> <span id="modal-nome"></span></p>
+                <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success" onclick="solicitarItem()">Solicitar</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <p><strong>Nome:</strong> <span id="modal-nome"></span></p>
-          <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
-          <p><strong>Quantidade:</strong> <span id="modal-quantidade"></span></p>
-          <p><strong>Responsável:</strong> <span id="modal-responsavel"></span></p>
-          <p><strong>Telefone:</strong> <span id="modal-telefone"></span></p>
-          <p><strong>Endereço do ponto de coleta:</strong> <span id="modal-endereco"></span></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
   <script>
     let usuarios = [];
@@ -144,30 +140,38 @@
         });
     });
 
-    function abrirModal(item) {
-      const usuario = usuarios.find(u => u.id == item.id_user);
-      const ponto = pontos.find(p => p.id == item.id_ponto);
+    let currentItem = null; // Armazena o item atual para uso na solicitação
 
-      document.getElementById('modal-nome').textContent = item.nome;
-      document.getElementById('modal-descricao').textContent = item.descricao || 'Sem descrição';
-      document.getElementById('modal-quantidade').textContent = item.quantidade;
+function abrirModal(item) {
+    currentItem = item; // Armazena o item para uso posterior
+    document.getElementById('modal-nome').textContent = item.nome;
+    document.getElementById('modal-descricao').textContent = item.descricao || 'Sem descrição';
+    $('#infoModal').modal('show');
+}
 
-      if (usuario) {
-        document.getElementById('modal-responsavel').textContent = usuario.nome;
-        document.getElementById('modal-telefone').textContent = usuario.telefone || 'Não informado';
-      } else {
-        document.getElementById('modal-responsavel').textContent = 'Não identificado';
-        document.getElementById('modal-telefone').textContent = '-';
-      }
-
-      if (ponto) {
-        document.getElementById('modal-endereco').textContent = ponto.endereco;
-      } else {
-        document.getElementById('modal-endereco').textContent = 'Sem ponto de coleta definido. Entre em contato com o responsável.';
-      }
-
-      $('#infoModal').modal('show');
+function solicitarItem() {
+    if (!currentItem) {
+        alert('Erro: Nenhum item selecionado.');
+        return;
     }
+
+    // Supondo que o ID do usuário logado esteja disponível (ex.: armazenado no localStorage)
+    const idUser = localStorage.getItem('userId') || 1; // Substitua por lógica real de autenticação
+
+    axios.post('http://localhost/ciclovida/api_php/item.php', {
+        acao: 'solicitar',
+        id_user: idUser,
+        id_item: currentItem.id,
+        id_ponto: currentItem.id_ponto
+    })
+    .then(function (response) {
+      window.location.reload();
+    })
+    .catch(function (error) {
+        console.error('Erro ao solicitar item:', error);
+        alert('Erro ao solicitar o item. Tente novamente.');
+    });
+}
   </script>
 
   <script>
