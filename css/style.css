@@ -1245,6 +1245,27 @@ a:focus {
   background-color: #053975;
 }
 
+.contact_section .form-cadastro select {
+  width: 100%;
+  border: 1px solid #044fa1;
+  height: 50px;
+  margin-bottom: 25px;
+  margin-top: 5px;
+  padding-left: 15px;
+  background-color: transparent;
+  outline: none;
+  color: #101010;
+  -webkit-appearance: none; 
+  -moz-appearance: none;    
+  appearance: none;   
+  border-radius: 10px;
+        
+}
+
+.contact_section .form-cadastro select:invalid {
+  color: #3a3a3a;
+}
+
 .radio-tipo input[type="radio"] {
   transform: scale(0.6); 
   margin-right: 8px; 

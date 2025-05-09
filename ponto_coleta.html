@@ -105,7 +105,12 @@
                 <p><strong>Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
               `;
 
-              L.marker([latitude, longitude])
+              L.circleMarker([latitude, longitude],{
+                radius: 8,
+                color: '#000000', 
+                fillColor: '#ffffff', 
+                fillOpacity: 1              
+            })
                 .addTo(map)
                 .bindPopup(descricao);
             } else {

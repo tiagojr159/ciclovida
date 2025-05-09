@@ -98,7 +98,16 @@
               <label for="telefone">Telefone:</label>
               <input required type="text" id="telefone" placeholder="Telefone para contato" />
             </div>
-
+            <div>
+              <label for="agente">Tipo de usuário:</label>
+              <select id="agente" name="agente">
+                <option value="" disabled selected hidden>Selecione uma opção</option>
+                <option value="Escola">Escola</option>
+                <option value="Cozinha">Cozinha</option>
+                <option value="Restaurante">Restaurante</option>
+                <option value="Horta">Horta</option>
+              </select>
+            </div>
             <div class="radio-tipo btn-group" role="group" aria-label="Tipo de Pessoa">
               <input type="hidden" name="tipoPessoa" id="tipoPessoa" value="fisica">
               <button type="button" class="btn btn-outline-primary active" onclick="selecionarTipoPessoa('fisica', this)">Pessoa Física</button>
@@ -192,6 +201,7 @@
       const cep = document.getElementById('cep').value.trim();
       const senha = document.getElementById('password').value;
       const senhaConfirm = document.getElementById('password_confirm').value;
+      const agente = document.getElementById('agente').value;
 
       if (senha !== senhaConfirm) {
         alert('As senhas não coincidem!');
@@ -202,7 +212,7 @@
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
-
+      console.log(agente)
       const dadosCadastro = {
         nome,
         email,
@@ -211,7 +221,8 @@
         documento,
         endereco,
         senha,
-        cep
+        cep,
+        agente
       };
       //axios.post('http://localhost/ciclovida/api_php/usuarios.php', dadosCadastro)
       axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
