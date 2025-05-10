@@ -116,15 +116,17 @@
             const latitude = parseFloat(ponto.lat);
             const longitude = parseFloat(ponto.log);
             let fillColor="";
+            console.log(ponto)
             // Validate that the coordinates are numbers and within valid ranges
             if (!isNaN(latitude) && !isNaN(longitude) && 
                 latitude >= -90 && latitude <= 90 && 
                 longitude >= -180 && longitude <= 180) {
               const descricao = `
-                <div class="popup-title">${ponto.nome_ponto}</div>
-                <p><strong>Responsável:</strong> ${ponto.responsavel || 'Não informado'}</p>
-                <p><strong>Telefone:</strong> ${ponto.telefone || 'Não informado'}</p>
-                <p><strong>Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
+                <div class="popup-title">${ponto.ponto_nome_ponto}</div>
+                <p><strong>Responsável:</strong> ${ponto.ponto_responsavel || 'Não informado'}</p>
+                <p><strong>Telefone:</strong> ${ponto.ponto_telefone || 'Não informado'}</p>
+                <p><strong>Endereço:</strong> ${ponto.ponto_endereco || 'Não informado'}</p>
+                <p><strong>Tipo:</strong> ${ponto.ponto_tipo || 'Não informado'}</p>
               `;
 
               fillColor = '#ffffff';
