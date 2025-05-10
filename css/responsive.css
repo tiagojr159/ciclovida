@@ -83,7 +83,7 @@
     margin-right: 0;
     margin-bottom: 25px;
   }
-
+  
   .info_section .info_main_row>div {
     display: flex;
     flex-direction: column;
@@ -163,5 +163,124 @@
 @media (min-width: 1200px) {
   .container {
     max-width: 1170px;
+  }
+}
+
+@media (max-width: 992px) {
+  .contact_section .form-cadastro {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact_section .form_container {
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
+
+  .contact_section .form-cadastro button {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact_section .form-cadastro {
+    padding: 0 15px;
+  }
+  
+  .contact_section .form-cadastro input,
+  .contact_section .form-cadastro textarea,
+  .contact_section .form-cadastro select {
+    font-size: 15px;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .contact_section .form-cadastro button {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact_section .form-cadastro {
+    padding: 0 10px;
+  }
+
+  .contact_section .form-cadastro button {
+    padding: 10px;
+  }
+}
+
+.form-cadastro {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-cadastro form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-cadastro .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-row .half {
+  flex: 1;
+  min-width: 200px;
+}
+
+.radio-tipo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.links-cadastro {
+  text-align: center;
+}
+
+.links-cadastro a {
+  margin-left: 5px;
+}
+
+.btn_cadastro {
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsividade específica */
+@media (max-width: 576px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .radio-tipo {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 992px) {
+  .form-cadastro form {
+    flex-direction: column;
+  }
+
+  .form-cadastro .form-row {
+    flex-direction: column;
+  }
+
+  .form-cadastro .form-row > div {
+    width: 100%;
   }
 }

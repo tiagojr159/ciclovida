@@ -22,7 +22,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px 40px;
     }
-
+    
     .form-cadastro form div,
     .form-cadastro form #cnpjField,
     .form-cadastro form #senha,
@@ -82,58 +82,57 @@
           <p>Preencha os dados abaixo e crie sua conta</p>
         </div>
 
-        <div class="form-cadastro">
-          <form id="form-cadastro" onsubmit="realizarCadastro(event)">
-            <div>
-              <label for="nome">Nome da instituição:</label>
-              <input required id="nome" type="text" placeholder="Nome completo ou nome da empresa" />
-            </div>
-            <div>
-              <label for="email">Email:</label>
-              <input required id="email" type="email" placeholder="Email" />
-            </div>
-            <div>
-              <label for="telefone">Telefone:</label>
-              <input required type="text" id="telefone" placeholder="Telefone para contato" />
-            </div>
-
-            <div class="radio-tipo btn-group" role="group" aria-label="Tipo de Pessoa">
-              <input type="hidden" name="tipoPessoa" id="tipoPessoa" value="escola">
-              <button type="button" class="btn btn-outline-primary active" onclick="selecionarTipoPessoa('escola', this)">Escola</button>
-              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('cozinha', this)">Cozinha</button>
-              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('restaurante', this)">Restaurante</button>
-              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('horta', this)">Horta</button>
-            </div>
-
-            <div id="cnpjField">
-              <label for="cnpj">CNPJ:</label>
-              <input type="text" id="cnpj" placeholder="CNPJ" />
-            </div>
-            <div>
-              <label for="endereco">Endereço:</label>
-              <input required id="endereco" type="text" placeholder="Endereço" />
-            </div>
-            <div>
-              <label for="cep">CEP:</label>
-              <input id="cep" type="text" placeholder="CEP" />
-            </div>
-            <div id="senha">
-              <label for="password">Senha:</label>
-              <input required type="password" id="password" placeholder="Senha" />
-            </div>
-            <div id="senha2">
-              <label for="password_confirm">Confirme sua senha:</label>
-              <input required type="password" id="password_confirm" placeholder="Confirme sua senha" />
-            </div>
-            <div class="links-cadastro">
-              <p>Já possui uma conta?</p>
-              <a href="login.html" class="link_login">Clique aqui</a>
-            </div>
-            <div class="btn_cadastro">
-              <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </div>
-          </form>
-        </div>
+<div class="form-cadastro">
+  <form id="form-cadastro" onsubmit="realizarCadastro(event)">
+    <div class="form-group">
+      <label for="nome">Nome da instituição:</label>
+      <input required id="nome" type="text" placeholder="Nome completo ou nome da empresa" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input required id="email" type="email" placeholder="Email" />
+    </div>
+    <div class="form-group">
+      <label for="telefone">Telefone:</label>
+      <input required type="text" id="telefone" placeholder="Telefone para contato" />
+    </div>
+    <div class="radio-tipo btn-group" role="group" aria-label="Tipo de Pessoa">
+      <input type="hidden" name="tipoPessoa" id="tipoPessoa" value="escola">
+      <button type="button" class="btn btn-outline-primary active" onclick="selecionarTipoPessoa('escola', this)">Escola</button>
+      <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('cozinha', this)">Cozinha</button>
+      <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('restaurante', this)">Restaurante</button>
+      <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('horta', this)">Horta</button>
+    </div>
+    <div class="form-group" id="cnpjField">
+      <label for="cnpj">CNPJ:</label>
+      <input type="text" id="cnpj" placeholder="CNPJ" />
+    </div>
+    <div class="form-group">
+      <label for="endereco">Endereço:</label>
+      <input required id="endereco" type="text" placeholder="Endereço" />
+    </div>
+    <div class="form-group">
+      <label for="cep">CEP:</label>
+      <input id="cep" type="text" placeholder="CEP" />
+    </div>
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="password">Senha:</label>
+        <input required type="password" id="password" placeholder="Senha" />
+      </div>
+      <div class="form-group half">
+        <label for="password_confirm">Confirme sua senha:</label>
+        <input required type="password" id="password_confirm" placeholder="Confirme sua senha" />
+      </div>
+    </div>
+    <div class="links-cadastro">
+      <p>Já possui uma conta? <a href="login.html" class="link_login">Clique aqui</a></p>
+    </div>
+    <div class="btn_cadastro">
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+  </form>
+</div>
       </div>
     </div>
   </section>

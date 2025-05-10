@@ -1262,6 +1262,20 @@ a:focus {
         
 }
 
+.radio-tipo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.radio-tipo .btn {
+  flex: 1 1 auto;
+  min-width: 120px;
+  text-align: center;
+}
+
 .contact_section .form-cadastro select:invalid {
   color: #3a3a3a;
 }
