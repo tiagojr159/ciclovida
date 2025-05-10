@@ -131,15 +131,21 @@
         });
 
         // Adiciona MONITORAMENTO fixo
-    /*    const descricaoExemplo = `
+        const descricaoExemplo = `
           <div class="popup-title">MONITORAMENTO</div>
           <p><strong>Responsável:</strong> Ana Souza</p>
           <p><strong>Telefone:</strong> (81) 91234-5678</p>
           <p><strong>Endereço:</strong> Rua da Solidariedade, 123 - Boa Vista, Recife - PE</p>
+          <p><strong>Escola:</strong> Rua da Solidariedade, 123 - Boa Vista, Recife - PE</p>
         `;
-        L.marker([-8.0500, -34.8800])
-          .addTo(map)
-          .bindPopup(descricaoExemplo);*/
+        L.circleMarker([-8.0500, -34.8800], {
+        radius: 8,             
+        color: '#000000',      
+        fillColor: '#ffffff',  
+        fillOpacity: 1       
+        })
+        .addTo(map)
+        .bindPopup(descricaoExemplo);
       })
       .catch(function (error) {
         console.error('Erro ao carregar pontos de coleta:', error);
