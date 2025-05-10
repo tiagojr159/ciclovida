@@ -145,7 +145,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="img-box">
-                    <img src="images/img_ciclovida2.svg" alt="">
+                    <img src="images/img_bg1.png" alt="">
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="img-box">
-                    <img src="images/img_ciclovida3.svg" alt="">
+                    <img src="images/img_bg2.png" alt="">
                   </div>
                 </div>
               </div>
@@ -204,7 +204,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="img-box">
-                    <img src="images/img_ciclovida1.svg" alt="">
+                    <img src="images/img_bg3.png" alt="">
                   </div>
                 </div>
               </div>
@@ -228,10 +228,6 @@
 
 
 
-
-
-
-  
   <section class="py-5 bg-light">
     <div class="container">
       <!-- Bloco com imagem e texto em destaque -->
@@ -253,7 +249,7 @@
       <div class="row g-4">
         <!-- Ação 1 -->
         <div class="col-md-6 col-lg-3">
-          <div class="card h-100 border-0 shadow-sm" data-aos="fade-up">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body text-center">
               <h5 class="card-title">Arrecadação de Alimentos</h5>
               <p class="card-text">Campanhas de coleta em mercados, escolas e empresas parceiras.</p>
@@ -263,7 +259,7 @@
         </div>
         <!-- Ação 2 -->
         <div class="col-md-6 col-lg-3">
-          <div class="card h-100 border-0 shadow-sm" data-aos="fade-up">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body text-center">
               <h5 class="card-title">Distribuição Solidária</h5>
               <p class="card-text">Entregas frequentes de cestas básicas para famílias em situação de vulnerabilidade.</p>
@@ -273,7 +269,7 @@
         </div>
         <!-- Ação 3 -->
         <div class="col-md-6 col-lg-3">
-          <div class="card h-100 border-0 shadow-sm"  data-aos="fade-up">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body text-center">
               <h5 class="card-title">Parcerias com ONGs</h5>
               <p class="card-text">Unimos forças com instituições locais para ampliar nosso alcance.</p>
@@ -283,7 +279,7 @@
         </div>
         <!-- Ação 4 -->
         <div class="col-md-6 col-lg-3">
-          <div class="card h-100 border-0 shadow-sm" data-aos="fade-up">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body text-center">
               <h5 class="card-title">Educação Alimentar</h5>
               <p class="card-text">Oficinas e palestras para promover hábitos saudáveis e sustentáveis.</p>
@@ -294,114 +290,201 @@
       </div>
     </div>
   </section>
-
-
-
-
-
-
-
-
-
-
-
-  <section class="py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-4">
-        <h3 class="fw-bold"><span class="text-primary">Funcionalidades da Plataforma</span></h3>
+  <section>
+    <style>
+      .bg-custom-dark {
+        background-color: #f4f6f9;
+      }
+  
+      .card-custom {
+        background-color: #ffffff; /* Fundo branco */
+        color: #0d47a1; /* Cor do texto azul */
+        border-radius: 16px;
+        border: 2px solid #0d47a1; /* Borda azul */
+        box-shadow: 0 8px 20px rgba(13, 71, 161, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding: 20px;
+      }
+  
+      .card-custom:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(21, 101, 192, 0.3);
+      }
+  
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+  
+      .card-text {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+  
+      .section-header {
+        position: relative;
+        padding-bottom: 1rem;
+      }
+  
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0d47a1;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+  
+      .section-subtitle {
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+  
+      .divider {
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #0d47a1, #42a5f5);
+        border-radius: 2px;
+        margin: 1rem auto;
+      }
+  
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s ease forwards;
+      }
+  
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      @media (max-width: 768px) {
+        .card-custom {
+          padding: 15px;
+        }
+  
+        .card-title {
+          font-size: 1.1rem;
+        }
+  
+        .card-text {
+          font-size: 0.85rem;
+        }
+  
+        .section-title {
+          font-size: 1.5rem;
+        }
+  
+        .section-subtitle {
+          font-size: 1rem;
+          padding: 0 10px;
+        }
+  
+        .row.gx-4 > div {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+      }
+  
+      /* Maior espaço entre os cards */
+      .row.gx-4 > .col-12 {
+        margin-bottom: 2rem;
+      }
+    </style>
+  
+    <section class="py-5 bg-custom-dark">
+      <div class="container">
+        <!-- Título -->
+        <div class="text-center mb-5 section-header fade-in-up">
+          <h3 class="section-title">Funcionalidades da Plataforma</h3>
+          <div class="divider"></div>
+          <p class="section-subtitle">Conectando solidariedade, tecnologia e agricultura urbana</p>
+        </div>
+        <!-- Cards -->
+        <div class="row gx-4 gy-4">
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Colaboração com a SEAU</h5>
+                <p class="card-text">Parceria com a Secretaria de Agricultura Urbana do Recife para transformar espaços públicos em áreas produtivas e solidárias.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Rede Colaborativa</h5>
+                <p class="card-text">Integra doadores, voluntários, hortas urbanas e comunidades para fortalecer ações de solidariedade alimentar.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Gestão Inteligente de Doações</h5>
+                <p class="card-text">Controle eficiente de recebimento, triagem e distribuição de alimentos para reduzir o desperdício.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Impacto Social Mensurável</h5>
+                <p class="card-text">Acompanhamento em tempo real dos resultados sociais gerados pelas ações da plataforma.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Acessibilidade e Inclusão</h5>
+                <p class="card-text">Design acessível para garantir o uso por pessoas de todas as idades e condições sociais.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Tecnologia a Serviço do Bem</h5>
+                <p class="card-text">Uso de IA, bancos de dados e automações para potencializar o alcance das doações.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Conexão com Hortas Comunitárias</h5>
+                <p class="card-text">Mapeamento e apoio a hortas urbanas vinculadas à SEAU para abastecimento sustentável.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-custom h-100 border-0">
+              <div class="card-body text-center">
+                <h5 class="card-title">Atendimento Multicanal</h5>
+                <p class="card-text">Cadastro e suporte via WhatsApp e chatbot, facilitando a comunicação com a comunidade.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-  
-      <div class="row g-4">
-        <!-- Card 1 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Parcerias com ONGs</h5>
-              <p class="card-text">Fortalecemos instituições locais para ampliar o alcance das doações e ações sociais.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 2 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Rede Colaborativa</h5>
-              <p class="card-text">Integração entre doadores, voluntários e beneficiários para uma atuação em rede.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 3 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Inclusão Social</h5>
-              <p class="card-text">Plataforma acessível a todos, promovendo dignidade e combate à exclusão.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 4 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Assistente Virtual com IA</h5>
-              <p class="card-text">Atendimento automatizado para orientar usuários e agilizar o processo de doação.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 5 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Suporte ao WhatsApp</h5>
-              <p class="card-text">Acompanhamento e cadastro via WhatsApp, facilitando o acesso para qualquer pessoa.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 6 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Tecnologias Envolvidas</h5>
-              <p class="card-text">Utilizamos Node.js, PHP, bancos de dados e inteligência artificial para escalar soluções.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 7 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Gestão de Doações</h5>
-              <p class="card-text">Sistema simplificado para organizar e distribuir alimentos com agilidade.</p>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 8 -->
-        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center">
-              <h5 class="card-title">Impacto Social</h5>
-              <p class="card-text">Tecnologia e solidariedade juntas no combate à fome e desperdício alimentar.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   </section>
   
+  
+  
 
-  
-  
-  
-  
-  
-  
   <section class="client_section layout_padding">
     <div class="container">
       <div class="heading_container">
@@ -410,7 +493,7 @@
         </h2>
       </div>
     </div>
-    <div class="container px-0" data-aos="fade-up">
+    <div class="container px-0">
       <div id="produtoCarousel" class="carousel carousel-fade" data-ride="carousel">
         <div class="carousel-inner" id="produtos-container">
           <!-- Itens serão carregados aqui dinamicamente -->
@@ -427,15 +510,6 @@
         </div>
       </div>
     </div>
-  </section>
-
-
-
-  
-  
-  <!-- Contact section -->
-  
-  <!-- End contact section -->
 
   <!-- Help Button -->
   <div class="help-btn" data-toggle="modal" data-target="#chatModal">
@@ -508,11 +582,12 @@
   <!-- Custom JS -->
   <script src="js/custom.js"></script>
   <!-- User Authentication Script -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    AOS.init();
+  
+
+    
   </script>
+
   <!-- Chat Script -->
   <script>
     const chatWindow = document.getElementById('chat-window');

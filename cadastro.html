@@ -24,7 +24,6 @@
     }
 
     .form-cadastro form div,
-    .form-cadastro form #cpfField,
     .form-cadastro form #cnpjField,
     .form-cadastro form #senha,
     .form-cadastro form #senha2 {
@@ -45,7 +44,6 @@
       grid-column: span 2;
     }
 
-    #cpfField,
     #cnpjField,
     .links-cadastro,
     .btn_cadastro {
@@ -71,10 +69,10 @@
 </head>
 
 <body class="sub_page">
-    <!-- Header section -->
-    <div id="header-placeholder"></div>
-    <!-- end header section -->
-     
+  <!-- Header section -->
+  <div id="header-placeholder"></div>
+  <!-- end header section -->
+
   <section class="contact_section layout_padding-bottom">
     <div class="container d-flex justify-content-center">
       <div class="card shadow-lg p-4" style="max-width: 900px; width: 100%; margin-top: 30px; border-radius: 20px;">
@@ -87,7 +85,7 @@
         <div class="form-cadastro">
           <form id="form-cadastro" onsubmit="realizarCadastro(event)">
             <div>
-              <label for="nome">Nome completo ou nome da empresa:</label>
+              <label for="nome">Nome da instituição:</label>
               <input required id="nome" type="text" placeholder="Nome completo ou nome da empresa" />
             </div>
             <div>
@@ -98,27 +96,16 @@
               <label for="telefone">Telefone:</label>
               <input required type="text" id="telefone" placeholder="Telefone para contato" />
             </div>
-            <div>
-              <label for="agente">Tipo de usuário:</label>
-              <select id="agente" name="agente">
-                <option value="" disabled selected hidden>Selecione uma opção</option>
-                <option value="Escola">Escola</option>
-                <option value="Cozinha">Cozinha</option>
-                <option value="Restaurante">Restaurante</option>
-                <option value="Horta">Horta</option>
-              </select>
-            </div>
+
             <div class="radio-tipo btn-group" role="group" aria-label="Tipo de Pessoa">
-              <input type="hidden" name="tipoPessoa" id="tipoPessoa" value="fisica">
-              <button type="button" class="btn btn-outline-primary active" onclick="selecionarTipoPessoa('fisica', this)">Pessoa Física</button>
-              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('juridica', this)">Pessoa Jurídica</button>
+              <input type="hidden" name="tipoPessoa" id="tipoPessoa" value="escola">
+              <button type="button" class="btn btn-outline-primary active" onclick="selecionarTipoPessoa('escola', this)">Escola</button>
+              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('cozinha', this)">Cozinha</button>
+              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('restaurante', this)">Restaurante</button>
+              <button type="button" class="btn btn-outline-primary" onclick="selecionarTipoPessoa('horta', this)">Horta</button>
             </div>
 
-            <div id="cpfField">
-              <label for="cpf">CPF:</label>
-              <input type="text" id="cpf" placeholder="CPF" />
-            </div>
-            <div id="cnpjField" style="display: none;">
+            <div id="cnpjField">
               <label for="cnpj">CNPJ:</label>
               <input type="text" id="cnpj" placeholder="CNPJ" />
             </div>
@@ -171,7 +158,6 @@
   <script>
     $(document).ready(function () {
       $('#telefone').mask('(00) 00000-0000');
-      $('#cpf').mask('000.000.000-00');
       $('#cnpj').mask('00.000.000/0000-00');
     });
 
@@ -179,14 +165,6 @@
       $('#tipoPessoa').val(tipo);
       $('.radio-tipo .btn').removeClass('active');
       $(botaoSelecionado).addClass('active');
-
-      if (tipo === 'fisica') {
-        $('#cpfField').show();
-        $('#cnpjField').hide();
-      } else {
-        $('#cpfField').hide();
-        $('#cnpjField').show();
-      }
     }
 
     function realizarCadastro(event) {
@@ -197,11 +175,10 @@
       const telefone = document.getElementById('telefone').value.trim();
       const tipoPessoa = document.getElementById('tipoPessoa').value;
       const endereco = document.getElementById('endereco').value.trim();
-      const documento = tipoPessoa === 'fisica' ? document.getElementById('cpf').value.trim() : document.getElementById('cnpj').value.trim();
+      const documento = document.getElementById('cnpj').value.trim();
       const cep = document.getElementById('cep').value.trim();
       const senha = document.getElementById('password').value;
       const senhaConfirm = document.getElementById('password_confirm').value;
-      const agente = document.getElementById('agente').value;
 
       if (senha !== senhaConfirm) {
         alert('As senhas não coincidem!');
@@ -212,7 +189,7 @@
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
-      console.log(agente)
+
       const dadosCadastro = {
         nome,
         email,
@@ -221,8 +198,7 @@
         documento,
         endereco,
         senha,
-        cep,
-        agente
+        cep
       };
       //axios.post('http://localhost/ciclovida/api_php/usuarios.php', dadosCadastro)
       axios.post('https://ciclovida.ki6.com.br/ciclovida/api_php/usuarios.php', dadosCadastro)
